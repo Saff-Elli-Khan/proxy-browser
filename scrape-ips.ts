@@ -25,6 +25,7 @@ const Ips: string[] = [];
       headless:
         Argv.headless ?? Argv.HEADLESS ?? Argv.Headless ?? true ? "new" : false,
       devtools: Argv.devtools ?? Argv.DevTools ?? Argv.DEV_TOOLS ?? false,
+      userDataDir: path.join(process.cwd(), "./puppeteer/data/scrapper/"),
     });
 
     const Page = await Browser.newPage();
