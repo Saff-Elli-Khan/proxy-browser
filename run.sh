@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Browser 1
-nohup ts-node -T ./index.ts -w "https://lifestylescorner.com" --referer="https://www.google.com,https://search.yahoo.com,," --proxyList=./ips/05-06-2023_ips.txt --proxyListProtocol=socks5 --limit 100000 --searchQuery="Lifestyles Corner" >browser-1.out 2>&1 &
+nohup ts-node -T ./index.ts -w "https://lifestylescorner.com" --referer="https://www.google.com,https://search.yahoo.com,," --proxyList=./ips/06-06-2023_ips.txt --proxyListProtocol=socks5 --limit 150 --searchQuery="Lifestyles Corner" >browser-1.out 2>&1 &
 pid1=$!
 echo "Browser 1 PID: $pid1"
 
