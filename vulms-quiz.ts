@@ -74,7 +74,7 @@ Note: Do not explain the answer. Just provide the option number without the opti
       const Quiz = await Page.evaluate(() => {
         const TextAreas = Array.from(document.querySelectorAll("textarea"));
 
-        if (TextAreas.length > 6) {
+        if (TextAreas.length > 7) {
           const QuestionTextAreas = TextAreas.filter(
             (textarea) => !textarea.id.includes("lblAnswer")
           );
