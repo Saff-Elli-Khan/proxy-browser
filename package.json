@@ -6,6 +6,7 @@
   "author": "Saif Ali Khan",
   "license": "ISC",
   "devDependencies": {
+    "@types/inquirer": "^9.0.3",
     "@types/jquery": "^3.5.16",
     "@types/minimist": "^1.2.2",
     "@types/node": "^20.0.0",
@@ -16,6 +17,8 @@
   },
   "dependencies": {
     "axios": "^1.4.0",
+    "chatgpt-incjs": "^3.3.2",
+    "inquirer": "^8.2.4",
     "minimist": "^1.2.8",
     "puppeteer": "^20.1.1",
     "puppeteer-extra": "^3.3.6",
@@ -23,6 +26,7 @@
     "puppeteer-extra-plugin-stealth": "^2.11.2",
     "socks-proxy-agent": "^8.0.1",
     "tree-kill": "^1.2.2",
+    "ts-import": "^5.0.0-beta.0",
     "user-agents": "^1.0.1377",
     "useragent": "^2.3.0"
   }

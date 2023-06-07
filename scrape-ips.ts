@@ -2,7 +2,7 @@ import puppeteer from "puppeteer";
 import path from "path";
 import fs from "fs";
 
-export const Argv = require("minimist")(process.argv.slice(2));
+const Argv = require("minimist")(process.argv.slice(2));
 
 const ExpectedIpCount = Argv.limit ?? Argv.Limit ?? Argv.LIMIT ?? 50;
 const RawCookieString =

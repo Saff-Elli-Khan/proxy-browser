@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html class="wf-poppins-n3-active wf-poppins-n4-active wf-poppins-n5-active wf-poppins-n6-active wf-poppins-n7-active wf-roboto-n3-active wf-roboto-n4-active wf-roboto-n5-active wf-roboto-n6-active wf-roboto-n7-active wf-active"><head id="Head1">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><meta http-equiv="cache-control" content="max-age=0"><meta http-equiv="cache-control" content="no-cache"><meta http-equiv="expires" content="0"><meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT"><meta http-equiv="pragma" content="no-cache"><title>
+	Quiz
+</title>
+    <style>
+        input[type="radio"]{ width: 25px; height: 25px; }
+    </style>
+    <!--begin::Web font -->
+    <script async="" src="Quiz_files/analytics.js"></script><script src="Quiz_files/webfont.js"></script>
+    <link rel="stylesheet" href="Quiz_files/css.css" media="all"><script>
+        WebFont.load({
+            google: { "families": ["Poppins:300,400,500,600,700", "Roboto:300,400,500,600,700"] },
+            active: function () {
+                sessionStorage.fonts = true;
+            }
+        });
+    </script>
+    <script src="Quiz_files/lodash.min.js"></script>
+    <link href="Quiz_files/vendors.bundle.css" rel="stylesheet" type="text/css"><link href="Quiz_files/style.bundle.css" rel="stylesheet" type="text/css">
+    <script src="Quiz_files/vendors.bundle.js" type="text/javascript"></script><script src="Quiz_files/jquery.mousewheel.min.js"></script><style type="text/css">span.im-caret {
+    -webkit-animation: 1s blink step-end infinite;
+    animation: 1s blink step-end infinite;
+}
+
+@keyframes blink {
+    from, to {
+        border-right-color: black;
+    }
+    50% {
+        border-right-color: transparent;
+    }
+}
+
+@-webkit-keyframes blink {
+    from, to {
+        border-right-color: black;
+    }
+    50% {
+        border-right-color: transparent;
+    }
+}
+
+span.im-static {
+    color: grey;
+}
+
+div.im-colormask {
+    display: inline-block;
+    border-style: inset;
+    border-width: 2px;
+    -webkit-appearance: textfield;
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+div.im-colormask > input {
+    position: absolute;
+    display: inline-block;
+    background-color: transparent;
+    color: transparent;
+    -webkit-appearance: caret;
+    -moz-appearance: caret;
+    appearance: caret;
+    border-style: none;
+    left: 0; /*calculated*/
+}
+
+div.im-colormask > input:focus {
+    outline: none;
+}
+
+div.im-colormask > input::-moz-selection{
+    background: none;
+}
+
+div.im-colormask > input::selection{
+    background: none;
+}
+div.im-colormask > input::-moz-selection{
+    background: none;
+}
+
+div.im-colormask > div {
+    color: black;
+    display: inline-block;
+    width: 100px; /*calculated*/
+}</style><style type="text/css">/* Chart.js */
+@-webkit-keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}@keyframes chartjs-render-animation{from{opacity:0.99}to{opacity:1}}.chartjs-render-monitor{-webkit-animation:chartjs-render-animation 0.001s;animation:chartjs-render-animation 0.001s;}</style>
+
+    <script type="text/javascript" async="" src="Quiz_files/MathJax.js"></script>
+    <script type="text/x-mathjax-config;;executed=true">
+        MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],                
+        tex2jax: {        
+        inlineMath: [['$','$'], ["\\(","\\)"] ],
+        displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+        processEscapes: true
+        }
+       });              
+
+        MathJax.Hub.Register.MessageHook("Math Processing Error",function (message) {
+            console.log('in hook');
+        });
+    </script>
+    <script type="text/javascript">
+        document.onreadystatechange = () => {
+            if (document.readyState === 'complete') {
+                try {
+                    setTimeout(function () {
+                        MathJax.Hub.Queue(['Typeset', MathJax.Hub]);
+                    }, 300);
+                } catch (err) {
+                    console.log(err);
+                }
+            }
+        };
+    </script>
+	<script type="text/javascript">
+        //Google Analytics Code - Start
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-27570524-1', 'auto');
+        ga('send', 'pageview');
+        //Google Analytics Code - End
+
+    </script>
+    
+    <script type="text/javascript">
+        //var Question = '';
+        //var AnsArray = { 'Ans0': '', 'Ans1': '', 'An2': '', 'Ans3': '', 'Ans4': '', 'Ans5': '' };
+        var ua = navigator.userAgent.toLowerCase();
+        //// Timer (Start)
+
+        var sec = 91;
+
+        function FillQuestionAnswerArray() {
+        //    var lblq = document.getElementById("lblQuestion");
+        //    if (lblq) {
+        //        Question = lblq.innerHTML;
+        //    }
+        //    //console.log(Question);
+        //    var i = 0;
+        //    for (i = 0; i <= 6; i++) {
+        //        var lblAns = document.getElementById("lblExpression" + i);
+        //        if (lblAns) {
+        //            AnsArray['Ans' + i] = lblAns.innerHTML;
+        //            //console.log(AnsArray['Ans'+i]);
+        //        }
+        //    }
+        }
+
+        function display() {
+            
+            if (sec > 0) {
+                sec -= 1;
+            }
+                        
+            if (sec >= 0) {
+                document.getElementById("lblTime").innerHTML = sec;
+            }
+            
+            if (sec <= 0) {
+                      
+                document.getElementById("btnSave").style.visibility = 'hidden';
+                document.getElementById("btnSave").style.display = 'none';
+
+                if ($('input[name=rbtn]:checked').val() >= 0) {                                       
+
+                    //Call for Auto save
+                    AutoSaveQuizAnswer($('input[name=rbtn]:checked').val());
+
+                    document.getElementById('msgSubmit').style.visibility = 'visible';
+                    document.getElementById('msgSubmit').style.color = "Green";
+                    document.getElementById('msgSubmit').innerHTML = 'Saving and loading next question...';
+
+                    // Interval of 5 sec before switch to next question                    
+                    setTimeout("display()", 5000);
+                    
+                }
+                else {
+
+                    if (document.getElementById('msgSubmit').innerHTML != 'Saving...' || document.getElementById('msgSubmit').innerHTML != 'Saving and loading next question...') {
+
+                        document.getElementById('msgSubmit').style.visibility = 'visible';
+                        document.getElementById('msgSubmit').style.color = "Red";
+                        document.getElementById('msgSubmit').innerHTML = 'Question Timeout: Now loading next question...';
+
+                        // Interval of 1 Sec before switch to next question
+                        setTimeout(function () {
+                            document.location.href = 'GetQuestion.aspx';
+                        }, 1000);
+                        
+                    }
+                }
+                               
+            }
+
+            if (sec < 45) {
+
+                if (document.getElementById("btnSave").disabled) {
+                    document.getElementById("imgAlertSelect").style.visibility = 'visible';
+                    document.getElementById("imgAlertSelect").style.display = 'inline';
+                }
+                else {
+                    document.getElementById("imgAlertSelect").style.visibility = 'hidden';
+                    document.getElementById("imgAlertSelect").style.display = 'none';
+                    document.getElementById("imgAlertSave").style.visibility = 'visible';
+                }
+            }
+
+            if (sec > 0) {
+                if (document.getElementById('msgSubmit').innerHTML != 'Saving...') {
+                    setTimeout("display()", 1000);
+                }
+            }
+
+        }
+        // Timer(End)
+
+        //Callbacks
+        function AutoSaveQuizAnswer(selVal) {
+            CallServer(selVal);
+        }
+
+        function ReceiveServerData(rValue) {
+
+            console.log(rValue);
+
+            if (rValue == "SVD") {
+                setTimeout(function () {document.location.href = 'GetQuestion.aspx';}, 1000);
+            }
+            else if (rValue == "QF") {
+                alert('------------------Quiz Finished!------------------\n\nYour quiz has been finished already.\nYour answer is not saved.');                
+                setTimeout(function () { document.location.href = 'QuizFinished.aspx'; }, 1000);
+            }
+            else if (!isNaN(rValue)) {
+                alert('--------------------Question Timeout!--------------------\n\nYou have spent ' + rValue + ' seconds on this question.\nYour answer is not saved.\n\nPress OK to view next question.');
+                setTimeout(function () { document.location.href = 'GetQuestion.aspx'; }, 1000);
+            }
+            else if (rValue == "ASVD") {
+                alert('The answer for this question is already saved.');
+                setTimeout(function () { document.location.href = 'GetQuestion.aspx'; }, 1000);
+            }
+            else if (rValue == "LHNF") {
+                alert('There is some problem while saving. Please restart the quiz!');
+                window.close();
+            }            
+            
+            //document.location.href = 'GetQuestion.aspx';
+            //setTimeout(function () {
+            //    document.location.href = 'GetQuestion.aspx';
+            //}, 1000);
+        }
+
+        function CheckWindowName() {
+            try {
+                //console.log(window.name);
+                if (window.name != "QuizQuestions") {
+                    //document.location.href = 'AccessDenied.aspx';
+                }
+
+                if (ua.indexOf('msie') > 0 || ua.indexOf('trident') > 0) {
+                    try { window.opener.postMessageInterface('quizopened', window); } catch (err) { console.log(err.message); }
+                    if (window.opener.postMessage) {
+                        try { window.opener.postMessage('quizopened', '*'); } catch (err) { }
+                    }
+
+                } else {
+                    if (window.opener.postMessage) {
+                        try { window.opener.postMessage('quizopened', '*'); } catch (err) { }
+                    }
+                }
+            }
+            catch (err) { console.log(err.message);}
+        }
+
+
+        document.onkeydown = function (event) {
+            event = event || window.event;
+            var key = event.keyCode ? event.keyCode : event.charCode;
+            //console.log('key:' + key); //78=n  //116=F5  //Alt=18
+            if ((key == 78) && (event.ctrlKey)) {
+                event.cancelBubble = true;
+                event.returnValue = false;
+                event.keyCode = false;
+                event.preventDefault();
+                return false;
+            }
+        }
+
+        function EnableNextButton() {
+            document.getElementById("btnSave").disabled = false;
+
+        }
+
+        function NextButtonStatus(ctrl) {
+            ctrl.style.visibility = 'hidden';
+            ctrl.style.display = 'none';
+            document.getElementById('msgSubmit').style.visibility = 'visible';
+            document.getElementById('msgSubmit').style.color = "Green";
+            document.getElementById('msgSubmit').innerHTML = 'Saving...';
+        }
+
+        function DisposeEscape(event) {
+            event = event || window.event;
+            var key = event.keyCode ? event.keyCode : event.charCode;
+            //console.log(key);//116=F5  --Alt=18 escape=27
+            if (key == 27) {
+                event.returnValue = false;
+                event.preventDefault();
+            }
+            else
+                return;
+        }
+
+        function back(event) {
+            if (window.event) // IE
+            {
+                if (event.keyCode == 8 && !event.srcElement.value) {
+                    return false;
+                }
+            }
+            else if (event.which) // Netscape/Firefox/Opera
+            {
+                var keynum = event.which;
+                if (keynum == 8) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+
+        function clickIE4() {
+            if (event.button == 2) {
+                return false;
+            }
+        }
+
+        function clickNS4(e) {
+            if (document.layers || document.getElementById && !document.all) {
+                if (e.which == 2 || e.which == 3) {
+                    return false;
+                }
+            }
+        }
+
+        if (document.layers) {
+            document.captureEvents(Event.MOUSEDOWN);
+            document.onmousedown = clickNS4;
+        }
+        else if (document.all && !document.getElementById) {
+            document.onmousedown = clickIE4;
+        }
+
+        document.oncontextmenu = new Function("return false;")
+
+
+        function reloadEquations() {
+
+            ////Question = "\\begin{align*}b &= a^2 - 5a + 3\\end{align*}"; error
+
+            ////var latex = document.createElement("div");
+            ////latex.innerHTML = "\\begin{align*}b &= a^2 - 5a + 3\\end{align*}";
+            ////MathJax.Hub.Queue(['Typeset', MathJax.Hub, latex]);
+            //var div = document.getElementById("lblQuestion");
+            ////console.log(Question)
+            //div.innerHTML = Question;
+            //var i = 0;
+            //for (i = 0; i <= 6; i++) {
+            //    var lblAns = document.getElementById("lblExpression" + i);
+            //    if (lblAns) {
+            //        lblAns.innerHTML = '';
+            //        lblAns.innerHTML = AnsArray['Ans' + i];
+            //    }
+            //}
+
+            MathJax.Hub.Queue(['Typeset', MathJax.Hub]);
+        }
+
+    </script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+            $("body").bind("contextmenu", function () {
+                return false;
+            });
+        });
+
+        $(document).keydown(function (e) {
+            if (e.keyCode === 116 || e.keyCode === 8 || e.keyCode === 82 || e.keyCode === 121 || e.keyCode === 122 || e.keyCode === 123 || e.which === 16 || e.which === 17 || e.which === 67 || e.which === 73 || e.which === 85 || e.which === 86 || e.which === 117 || e.which === 123 || e.which === 65 || e.which === 97) {
+                e.preventDefault();
+            }
+        });
+
+
+    </script>
+<link href="Quiz_files/fullcalendar.bundle.css" type="text/css" rel="stylesheet"><link href="Quiz_files/fullcalendar.min.css" type="text/css" rel="stylesheet"><link href="Quiz_files/jqModal.css" type="text/css" rel="stylesheet"><link href="Quiz_files/bootstrap-toggle.min.css" type="text/css" rel="stylesheet"><link href="Quiz_files/ToggleButton.css" type="text/css" rel="stylesheet"><link href="Quiz_files/PopupNotification.css" type="text/css" rel="stylesheet"><link href="Quiz_files/star-rating-svg.css" type="text/css" rel="stylesheet"><link href="Quiz_files/viewbox.css" type="text/css" rel="stylesheet"><link href="Quiz_files/style.bundle.css" type="text/css" rel="stylesheet"><link href="Quiz_files/vendors.bundle.css" type="text/css" rel="stylesheet"><link href="Quiz_files/vulms.css" type="text/css" rel="stylesheet"><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Menu_Button .MathJax_Hover_Arrow {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 4px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -khtml-border-radius: 4px; font-family: 'Courier New',Courier; font-size: 9px; color: #F0F0F0}
+.MathJax_Menu_Button .MathJax_Hover_Arrow span {display: block; background-color: #AAA; border: 1px solid; border-radius: 3px; line-height: 0; padding: 4px}
+.MathJax_Hover_Arrow:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_Hover_Arrow:hover span {background-color: #CCC!important}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_About.MathJax_MousePost {outline: none}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 5px 0px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px; -khtml-border-radius: 5px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 1px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; padding-top: .25em; color: #666666; font-size: .75em}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: .7em}
+.MathJax_MenuRadioCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuLabel {padding: 1px 2em 3px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #DDDDDD; margin: 4px 3px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: #606872; color: white}
+.MathJax_MenuDisabled:focus, .MathJax_MenuLabel:focus {background-color: #E8E8E8}
+.MathJax_ContextMenu:focus {outline: none}
+.MathJax_ContextMenu .MathJax_MenuItem:focus {outline: none}
+#MathJax_AboutClose {top: .2em; right: .2em}
+.MathJax_Menu .MathJax_MenuClose {top: -10px; left: -10px}
+.MathJax_MenuClose {position: absolute; cursor: pointer; display: inline-block; border: 2px solid #AAA; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; font-family: 'Courier New',Courier; font-size: 24px; color: #F0F0F0}
+.MathJax_MenuClose span {display: block; background-color: #AAA; border: 1.5px solid; border-radius: 18px; -webkit-border-radius: 18px; -moz-border-radius: 18px; -khtml-border-radius: 18px; line-height: 0; padding: 8px 0 6px}
+.MathJax_MenuClose:hover {color: white!important; border: 2px solid #CCC!important}
+.MathJax_MenuClose:hover span {background-color: #CCC!important}
+.MathJax_MenuClose:hover:focus {outline: none}
+</style><style type="text/css">.MathJax_Preview .MJXf-math {color: inherit!important}
+</style><style type="text/css">.MJX_Assistive_MathML {position: absolute!important; top: 0; left: 0; clip: rect(1px, 1px, 1px, 1px); padding: 1px 0 0 0!important; border: 0!important; height: 1px!important; width: 1px!important; overflow: hidden!important; display: block!important; -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none}
+.MJX_Assistive_MathML.MJX_Assistive_MathML_Block {width: 100%!important}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; -webkit-box-sizing: content-box; -moz-box-sizing: content-box; box-sizing: content-box; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1px; bottom: 2px; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.MJXp-script {font-size: .8em}
+.MJXp-right {-webkit-transform-origin: right; -moz-transform-origin: right; -ms-transform-origin: right; -o-transform-origin: right; transform-origin: right}
+.MJXp-bold {font-weight: bold}
+.MJXp-italic {font-style: italic}
+.MJXp-scr {font-family: MathJax_Script,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-frak {font-family: MathJax_Fraktur,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-sf {font-family: MathJax_SansSerif,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-cal {font-family: MathJax_Caligraphic,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-mono {font-family: MathJax_Typewriter,'Times New Roman',Times,STIXGeneral,serif}
+.MJXp-largeop {font-size: 150%}
+.MJXp-largeop.MJXp-int {vertical-align: -.2em}
+.MJXp-math {display: inline-block; line-height: 1.2; text-indent: 0; font-family: 'Times New Roman',Times,STIXGeneral,serif; white-space: nowrap; border-collapse: collapse}
+.MJXp-display {display: block; text-align: center; margin: 1em 0}
+.MJXp-math span {display: inline-block}
+.MJXp-box {display: block!important; text-align: center}
+.MJXp-box:after {content: " "}
+.MJXp-rule {display: block!important; margin-top: .1em}
+.MJXp-char {display: block!important}
+.MJXp-mo {margin: 0 .15em}
+.MJXp-mfrac {margin: 0 .125em; vertical-align: .25em}
+.MJXp-denom {display: inline-table!important; width: 100%}
+.MJXp-denom > * {display: table-row!important}
+.MJXp-surd {vertical-align: top}
+.MJXp-surd > * {display: block!important}
+.MJXp-script-box > *  {display: table!important; height: 50%}
+.MJXp-script-box > * > * {display: table-cell!important; vertical-align: top}
+.MJXp-script-box > *:last-child > * {vertical-align: bottom}
+.MJXp-script-box > * > * > * {display: block!important}
+.MJXp-mphantom {visibility: hidden}
+.MJXp-munderover {display: inline-table!important}
+.MJXp-over {display: inline-block!important; text-align: center}
+.MJXp-over > * {display: block!important}
+.MJXp-munderover > * {display: table-row!important}
+.MJXp-mtable {vertical-align: .25em; margin: 0 .125em}
+.MJXp-mtable > * {display: inline-table!important; vertical-align: middle}
+.MJXp-mtr {display: table-row!important}
+.MJXp-mtd {display: table-cell!important; text-align: center; padding: .5em 0 0 .5em}
+.MJXp-mtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-mlabeledtr {display: table-row!important}
+.MJXp-mlabeledtr > .MJXp-mtd:first-child {padding-left: 0}
+.MJXp-mlabeledtr:first-child > .MJXp-mtd {padding-top: 0}
+.MJXp-merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MJXp-scale0 {-webkit-transform: scaleX(.0); -moz-transform: scaleX(.0); -ms-transform: scaleX(.0); -o-transform: scaleX(.0); transform: scaleX(.0)}
+.MJXp-scale1 {-webkit-transform: scaleX(.1); -moz-transform: scaleX(.1); -ms-transform: scaleX(.1); -o-transform: scaleX(.1); transform: scaleX(.1)}
+.MJXp-scale2 {-webkit-transform: scaleX(.2); -moz-transform: scaleX(.2); -ms-transform: scaleX(.2); -o-transform: scaleX(.2); transform: scaleX(.2)}
+.MJXp-scale3 {-webkit-transform: scaleX(.3); -moz-transform: scaleX(.3); -ms-transform: scaleX(.3); -o-transform: scaleX(.3); transform: scaleX(.3)}
+.MJXp-scale4 {-webkit-transform: scaleX(.4); -moz-transform: scaleX(.4); -ms-transform: scaleX(.4); -o-transform: scaleX(.4); transform: scaleX(.4)}
+.MJXp-scale5 {-webkit-transform: scaleX(.5); -moz-transform: scaleX(.5); -ms-transform: scaleX(.5); -o-transform: scaleX(.5); transform: scaleX(.5)}
+.MJXp-scale6 {-webkit-transform: scaleX(.6); -moz-transform: scaleX(.6); -ms-transform: scaleX(.6); -o-transform: scaleX(.6); transform: scaleX(.6)}
+.MJXp-scale7 {-webkit-transform: scaleX(.7); -moz-transform: scaleX(.7); -ms-transform: scaleX(.7); -o-transform: scaleX(.7); transform: scaleX(.7)}
+.MJXp-scale8 {-webkit-transform: scaleX(.8); -moz-transform: scaleX(.8); -ms-transform: scaleX(.8); -o-transform: scaleX(.8); transform: scaleX(.8)}
+.MJXp-scale9 {-webkit-transform: scaleX(.9); -moz-transform: scaleX(.9); -ms-transform: scaleX(.9); -o-transform: scaleX(.9); transform: scaleX(.9)}
+.MathJax_PHTML .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style></head>
+<body class="noselect" oncopy="return false" oncut="return false" onpaste="return false" onload="javascript:window.history.go(+1);display();CheckWindowName();FillQuestionAnswerArray();" onkeypress="DisposeEscape(event);" onkeydown="javascript:return back(event);"><div id="MathJax_Message" style="display: none;"></div>
+    <form method="post" action="./QuizQuestion.aspx?ver=52f084fb-37c2-4978-9f4b-676741c4d9e5" id="form1">
+<div class="aspNetHidden">
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="">
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="">
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="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">
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['form1'];
+if (!theForm) {
+    theForm = document.form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="Quiz_files/WebResource.js" type="text/javascript"></script>
+
+
+<script type="text/javascript">
+//<![CDATA[
+function CallServer(arg, context) { WebForm_DoCallback('__Page',arg,ReceiveServerData,context,null,false)} ;//]]>
+</script>
+
+<div class="aspNetHidden">
+
+	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="235873E3">
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="ssl3/P9xNT8TvOSJAJCpDnLvO//zUVBxMOMXDBdpDDPwA9jX2aTsrmDGeWz/ZoxTSC/xHB7tppWaJyEc+gH9k8f6Z4TrWH0+j6HB0ROxMyfbJ5XoI6c5dQfwNmttgnX2ynlT+Tn+DAV6UK8x4zKIPxkgoU28rQmUvWMe4zzSJcN45sQEjgWa8LZIrQLhuFkj/FqjDw==">
+</div>
+        
+        <div style="width: 98%; margin: auto;margin-top:8px;">
+            <table id="tblQuizQuestions" style="width: 100%;" cellspacing="0" cellpadding="0" border="0">
+	<tbody><tr>
+		<td style="border: #26759e solid;border-width: 1px;">
+                        <table style="table-layout: auto;" width="100%" cellspacing="0" cellpadding="5" border="0">
+                            <tbody><tr>
+                                <td style="height: 40px; width: 50%; text-align: left; vertical-align: top;" nowrap="nowrap">
+                                    <span class="tblheadingblue" style="display: block; margin-top: 8px;">
+                                        BC200204017: ABDULLAH KHAN
+                                    </span>
+                                </td>
+                                <td style="text-align: right; vertical-align: top; margin: 3px 3px 0px 3px;" nowrap="nowrap">
+                                    <table class="quizTimer" style="margin-right: 0; margin-left: auto;" cellspacing="0" cellpadding="3" border="0">
+                                        <tbody><tr>
+                                            <td id="title" colspan="2" class="error txtbold" nowrap="nowrap" align="center">Time Left
+                                            </td>
+                                            <td class="txtWhite" nowrap="nowrap" align="center">
+                                                <span id="lblTime" style="font-size: 18px;">85</span>
+                                                <br>
+                                                sec(s)
+                                            </td>
+                                            <td nowrap="nowrap" align="center">
+                                                <img src="Quiz_files/quiz_loading.gif" alt="" id="imgLoading">
+                                            </td>
+                                        </tr>
+                                    </tbody></table>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: left; padding-top: 0px">
+                                    <span id="lblCourseCode" class="txtbold">
+                                        CS311 - Introduction to Web Services Development (Quiz No. 2)</span>
+                                </td>
+                                <td style="text-align: right; text-wrap: none; padding-top: 0px">
+                                    <span class="txtbold txtPurple">Quiz Start Time:
+                                            <span id="lblStartTime">04:02 PM, 07 June 2023</span>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody></table>
+                    </td>
+	</tr>
+	<tr>
+		<td>
+                        <hr class="hr-style">
+                    </td>
+	</tr>
+	<tr>
+		<td>
+                        <table width="100%" cellspacing="1" cellpadding="2" border="0">
+                            <tbody><tr>
+                                <td class="txtbold" style="width: 50%;" nowrap="nowrap" align="left">Question #
+                                            <span id="lblRemainingQs">1</span>
+                                    of
+                                            10
+                                            ( <span class="error">Start time:
+                                                <span id="lblLoadTime">04:02:30 PM, 07 June 2023</span>
+                                            </span>)
+                                </td>
+                                <td style="width: 50%; text-align: right;" nowrap="nowrap">
+                                    <span class="txtbold">Total Marks: </span>
+                                    <span id="lblMarks">1</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="noselect" style="padding:5px;" align="left">
+                                    <div id="divnoselect" style="width: 100%; padding-bottom:5px;padding-top:5px; min-height:90px;overflow-y: auto; overflow-x: auto;  margin-left: 0px; text-align: left;">
+                                        
+                                        <div id="PDyqcAWhrGNEaIYFBOMfLjyI_skJEJJnyrKvRbsydSQctIOBAzJnQcegGqrkQMdhyaHjyeoaWOBuTVPrejJF_WWVMeoclIhQqjfTBfDWLkRBblNlb_FiDXibEnXTqLqOilDlrxq_fnvQEUvcRCBlCzNSADOPIkh_uDUqhcveKG11515311" class="noselect" style="height: 0px; overflow-y: auto; overflow-x: hidden; padding: 0px 0px 0px 0px; text-align: left; float: left; width: 99%;"></div>
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        
+                                        <div id="hfLEWfNMYSSYqRvQCIzzBVhMaVqvKYxdaTNRryluvRfIRYMrJmkSKMXMzzfApSB_VpzWDdZFXEEkrYvBJ_lZpfTNwBTtSkEcQfndaqngMfvFIoWaDdsqhdLrWlbCKhnn_cULmScTMENJkNFIgtpqtOvnTwHpPkWfsHFgTKomBYdcQCHIgSXRtyvlihtqLnEcjiRcHapVEDpUmSXRpzJxNFnvNUymRzaOUBuilfAFeBMpIa_QKcBMeIOdwXPocDEGdaAkYqgKyDTMuymnVicqxNkLnRmOPNdayFMjaPtVwsPaqCjzlcSvbOKQrpyGDSvlbtPpmDNFpHvFzKWkjodnvi_jvxslSmRdxe_xnuMhPNFTUERhSNYPpHqtthuqLcnDqRJUKZypbwYhdgPrfLSEOCopoHEG_XVnaCeCwxWuQjotkIPNRDKAJjpodUgCVrpEblHaCMwipZogPvEgsrpxNVdsNrabQTYZukS_BqKFIcLlvJZiQALeBtsFHPNMnUSVBOmfdFeChkplKtxESsLPIuYAtNsmdzToKqkgXuFKXIySEGwOTIuvJCNHrlnPNsaiRAaUJQhYmAtAxFxmSdTUEYfHddqmGryfiQBEgbFDcWIJKMKlpAykZGdtWSshbvRwCNSgEtFrYQsjQVyQSEyFtNGcoIjNkZchENGxvegxwHMJOudAVbOWyMDqGqtxKsG_oKfCPBWoYBKmByNugitJKGktJRqEmkmDAMVEOamTEbyxBRoJdzQc_yphbnuyLSCpPHmpcJfGxZFkIorsdhbnUKEDYodchoImYJhvg_hTTKgatFZowBVerQVFCjRpgDZJ11515367" class="noselect" style="height: 0px; overflow-y: auto; overflow-x: hidden; padding: 0px 0px 0px 0px; text-align: left; float: left; width: 99%;"></div>
+                                        
+                                        <textarea name="JUGDFeXyqprD_OrkJASG11515301" rows="7" cols="20" readonly="readonly" id="JUGDFeXyqprD_OrkJASG11515301" disabled="disabled" class="noselect" style="background-color:#F4F4F4;width:10%;display:none;">3 T d u K Q x U l 8 q Z L x Q n s 4 Z r 4 X K s T U o l </textarea>
+                                        
+                                        
+                                        
+                                        
+                                        <textarea name="tHyXXzANcbTZhIs__nEoPJBUzpnCeNDbSFYBw_JQGMTpWKspqYNGOGukFeZjMzkPYsGclrDAdphDqNypxyNF_xMMMpwRbbDHcDQfDQEzUNeaaqushlmPmfPbfvPwwmaClZcmxTlguOlnTnnWwDlrppWypq_JAIDjobpAOHwN_FWXvdItItAsAkNxDfyHTcflLC_symIoIYrkT_DLiHAHILiEOsyjJovYalLseQvWlMjdteeDcnZMbXd_UwdGpafVdSJioLhRNfXwdELlOuHWOjyDHLYjnoiLiO_aVwQRFIzwAiXQkttvSIGvVGacnzeZxMOPElQSerRGkBCaoHzvwntZHFEPVoeHea_oTIMzcbRcsALUDAog_kdKUpH_gBxqNKdKCPGgwATVWRiHulLV_yHuxpUfBMSbfbPiXBSouIk_RIpCH_FwqbqPCjONwcfjitrvC_ktTXbsNIdoARXBHXlDm_fpnFtSeBRZRvAHPNdSAzBvFaMeEdcLHnJCVwFOfINMrEWG11515353" rows="7" cols="20" readonly="readonly" id="tHyXXzANcbTZhIs__nEoPJBUzpnCeNDbSFYBw_JQGMTpWKspqYNGOGukFeZjMzkPYsGclrDAdphDqNypxyNF_xMMMpwRbbDHcDQfDQEzUNeaaqushlmPmfPbfvPwwmaClZcmxTlguOlnTnnWwDlrppWypq_JAIDjobpAOHwN_FWXvdItItAsAkNxDfyHTcflLC_symIoIYrkT_DLiHAHILiEOsyjJovYalLseQvWlMjdteeDcnZMbXd_UwdGpafVdSJioLhRNfXwdELlOuHWOjyDHLYjnoiLiO_aVwQRFIzwAiXQkttvSIGvVGacnzeZxMOPElQSerRGkBCaoHzvwntZHFEPVoeHea_oTIMzcbRcsALUDAog_kdKUpH_gBxqNKdKCPGgwATVWRiHulLV_yHuxpUfBMSbfbPiXBSouIk_RIpCH_FwqbqPCjONwcfjitrvC_ktTXbsNIdoARXBHXlDm_fpnFtSeBRZRvAHPNdSAzBvFaMeEdcLHnJCVwFOfINMrEWG11515353" disabled="disabled" class="noselect" style="background-color:#F4F4F4;width:99%;display:none;">9c dB oO 03 DL QU Gw Gg hX St 0s Gv 6C V4 DZ 0B qh JG zg Yh r6 fC CC Dz Jt w8 ki kS GS FV 35  O Vp E  Wa Ra 9L b4 </textarea>
+                                        
+                                        
+                                        <textarea name="cZ_KrwEIIeDtzRmoXzOYtQETDwepRWMEhlIBGsVwOknHgrujDIWgGbHMUhGw11515311260" rows="7" cols="20" readonly="readonly" id="cZ_KrwEIIeDtzRmoXzOYtQETDwepRWMEhlIBGsVwOknHgrujDIWgGbHMUhGw11515311260" disabled="disabled" class="noselect" style="background-color:#F4F4F4;width:100%;padding-left:10px; padding-top:10px;overflow:auto;background:white; min-height:90px; border: 1px solid #26759e;border-left: 5px solid #26759e;">Nodes in the node list are accessed with index numbers starting from ___________.</textarea>
+
+										<img id="QImage">          
+                                        
+                                        <textarea name="UWqJFKwWinamRORZDgaqXSckclZXLpwYAQNqnnjEhlTFBCOKlgxiwIECuFhVmYLurClAAcnQxVImzWjZXPnfsNcsMLwhGNTIaZP_SNJIthla_SDYXHzWmgCeatpphGKkCAMZHkHJFfnLcBtuHXJzOxXvXlZZYVcnWBY_GeRoApRHtsBYAwiKxMVFdRCWKjmlCApbetoeFWzafQBfkAYcnRqJhSWpbwdSDhEtCbvIHEEaOvaNPXmJKJylKguLWzCKthXzMIdIFQVjNPwmtJaEJTHujTjXhkmJCviiYcAGvdEvpOYvkISMYzAZZdPuaFcWfLhTiONRJTJgPNEVvooZRZlEuIIvMHhqBjQdiFNWvBDFpUJMZvzmSCEFbdZZFSEBnUfhyboqbSfPWgPa_xWSIvX_eKCEhoQcyBSVqcOyHJLAYpkwO_aJxnttxfDnZjJnBCSUOukXiYK_kXcpbHrhOHgKIZYKZcZYAYzVXPhUPDbYcuJaDOMStcZvXHLpVZyG_m_LYHSLaWRKgHjPQzHLPHgYzDyPEtzrFVZquyBxxAsWKOPQZxZXSnrtGbMUJCHiYbELjtVSxLPPPJOlpirITcZTegkTlhnuuKzjJDhhbHaGYcexNcgcMzOwCmiCIChQYVVEKfblAJhMBSwBCnFJBKhvxChYWeYZaKjCHZmjAvcDSCvlqgAWxYONoaIIzDOWlImsjtvdAXIGjeduIxireCcCwVOhRelyhGSJRCBymXVaQH11515374" rows="7" cols="20" readonly="readonly" id="UWqJFKwWinamRORZDgaqXSckclZXLpwYAQNqnnjEhlTFBCOKlgxiwIECuFhVmYLurClAAcnQxVImzWjZXPnfsNcsMLwhGNTIaZP_SNJIthla_SDYXHzWmgCeatpphGKkCAMZHkHJFfnLcBtuHXJzOxXvXlZZYVcnWBY_GeRoApRHtsBYAwiKxMVFdRCWKjmlCApbetoeFWzafQBfkAYcnRqJhSWpbwdSDhEtCbvIHEEaOvaNPXmJKJylKguLWzCKthXzMIdIFQVjNPwmtJaEJTHujTjXhkmJCviiYcAGvdEvpOYvkISMYzAZZdPuaFcWfLhTiONRJTJgPNEVvooZRZlEuIIvMHhqBjQdiFNWvBDFpUJMZvzmSCEFbdZZFSEBnUfhyboqbSfPWgPa_xWSIvX_eKCEhoQcyBSVqcOyHJLAYpkwO_aJxnttxfDnZjJnBCSUOukXiYK_kXcpbHrhOHgKIZYKZcZYAYzVXPhUPDbYcuJaDOMStcZvXHLpVZyG_m_LYHSLaWRKgHjPQzHLPHgYzDyPEtzrFVZquyBxxAsWKOPQZxZXSnrtGbMUJCHiYbELjtVSxLPPPJOlpirITcZTegkTlhnuuKzjJDhhbHaGYcexNcgcMzOwCmiCIChQYVVEKfblAJhMBSwBCnFJBKhvxChYWeYZaKjCHZmjAvcDSCvlqgAWxYONoaIIzDOWlImsjtvdAXIGjeduIxireCcCwVOhRelyhGSJRCBymXVaQH11515374" disabled="disabled" class="noselect" style="background-color:#F4F4F4;width:99%;display:none;">R A b h N i E c e k w 7 T D 1 t B a   G D A d d h X t d Y K r </textarea>
+                                        <textarea name="KxO_BWYsihjwOfNMWnKadLUdFwlFHhBnprElCejcIOkdiHoSYLzoFiCzdlvGlTlAfwHXadJsEjROcrvzHShwjOiGpFHSkcrqdjym_QtvBGkXQoXmqwzTmpSROAjUWsIcsclttJzsanvcfLrBjVcodYEpQhY_iYZKzHfpCeuhyHu_vrnDKilAQU_UXxcMl_KBNkdXgCzFcvrWeFuavUq_nYvfILRGBixzxsmKOPXHjgZVdeqSCCRRJKPpqzPVmtDvztZnUkMgxiRG_ZBeV_D_QgpmcxUP_CWrdeXlEDzTrmUcuJpRxl_mpEeTEnKXPxgvMaeVBRaSAlJfLMtTHCTPDkBYAEgRtbDuFaQUfUQgLhlEvzHsvsPMeRrcYFVxlIaZhPZmxYponnEXzyeByoWBMrQpjpwZzUvCGMXgaVwWDbarNUdbcTzxnZNqzlDIdPpTtBQnaycdt_ylRacOLVyfVyQizihqRouomHzLEqBesWEnbcZYIpxHRJyvmiotQnLFGKzJcRKVUTo_udGXIIhdrmWcJDZWBINFKzhRdPxsfboyWzAJcRkHFjOUoXAYtpTLGjpvxpuuMqzPzZGLDQulZF_bkMeGPY_qHdsoJFMnYrwQl_WPQqVcvjmAjNKkLoeorIHVhTByDHNjKjrlrPqZDXwZrsEwwcckMHacsAiyoXYnWDrAXauxyFlTMjfqPGCcgdWCJOtrhtmgzICoAEZVjfnHXGQJWtjiVxHuhprIhCPETEVDgrpLhhuAqPfDzkVoKDLCBJGMNRpgQioSmMdfDXAoCGDRJoJxibvQuSCXkdyQsNlIcMRnHqknCX_vFqDaHtzpoYZTJGvbalxpWw11515382" rows="7" cols="20" readonly="readonly" id="KxO_BWYsihjwOfNMWnKadLUdFwlFHhBnprElCejcIOkdiHoSYLzoFiCzdlvGlTlAfwHXadJsEjROcrvzHShwjOiGpFHSkcrqdjym_QtvBGkXQoXmqwzTmpSROAjUWsIcsclttJzsanvcfLrBjVcodYEpQhY_iYZKzHfpCeuhyHu_vrnDKilAQU_UXxcMl_KBNkdXgCzFcvrWeFuavUq_nYvfILRGBixzxsmKOPXHjgZVdeqSCCRRJKPpqzPVmtDvztZnUkMgxiRG_ZBeV_D_QgpmcxUP_CWrdeXlEDzTrmUcuJpRxl_mpEeTEnKXPxgvMaeVBRaSAlJfLMtTHCTPDkBYAEgRtbDuFaQUfUQgLhlEvzHsvsPMeRrcYFVxlIaZhPZmxYponnEXzyeByoWBMrQpjpwZzUvCGMXgaVwWDbarNUdbcTzxnZNqzlDIdPpTtBQnaycdt_ylRacOLVyfVyQizihqRouomHzLEqBesWEnbcZYIpxHRJyvmiotQnLFGKzJcRKVUTo_udGXIIhdrmWcJDZWBINFKzhRdPxsfboyWzAJcRkHFjOUoXAYtpTLGjpvxpuuMqzPzZGLDQulZF_bkMeGPY_qHdsoJFMnYrwQl_WPQqVcvjmAjNKkLoeorIHVhTByDHNjKjrlrPqZDXwZrsEwwcckMHacsAiyoXYnWDrAXauxyFlTMjfqPGCcgdWCJOtrhtmgzICoAEZVjfnHXGQJWtjiVxHuhprIhCPETEVDgrpLhhuAqPfDzkVoKDLCBJGMNRpgQioSmMdfDXAoCGDRJoJxibvQuSCXkdyQsNlIcMRnHqknCX_vFqDaHtzpoYZTJGvbalxpWw11515382" disabled="disabled" class="noselect" style="background-color:#F4F4F4;width:99%;display:none;">8OO2h
+ MA9RS LSQPb 0t  D C1uVr x8a0Z ApD2x ufKUP aaSX2 Syzf6 aOzgY gv3MU OAk1t
+ xqXtR USPTD CkF2I 9K43Z WZxer 9n8ab K00FF DJfym s8ONw 7YadV eGqcG G2TcS
+ IUOS3 Luayf  EGSH XmTSt ln4p6 eLX88 KZcPN Hv6TT OXN7w </textarea>
+                                        <textarea name="xWWqsrHNXTHRvaYJ_PxUEozdAvJNSbLZK_HDlCGyhLCABqABCcxaZcmIYtpxivvxIjGvSUYyI_oumzcLvHKrfl_jOzgtNKPmQGtTjFjjDzRaotXZReBbkDSXjYgUogkzkBdgFIdpYcngUZvWcGbkIpBNoWkLZPvYOTrnPrUJANCIQmDKdKthEAqw_QskYSPJiPRAjIGlnSjwnuxCTaiPWNTOdwn__kljytaBVCbUDIvnRvIFTqRzkAoUwDYoWGmDhAyvUwhQzOLOThxjnhgKSmzyEFGSfozyWrFRxOmYIA_WpZBPGpBpbclwBAqOqPmLPOscbfnYwIBRmdIgErLqnJWvGKQwZYjtPpGbiapbCduTaTJZtJJzExZGsxWQPrzYZJCyWhyfCkoJQDVnBsCPOlpSQAjlEYMLeWuRRLDMMfwUIPqpcjOYokJpVkiVyNbeXcguJEVrprDjpUKAKvJVKpYvMFxhdiOzERxhkxfYNYjxga_AaiKCEFUjEliDIpNGdFfXXeROQmHmFbOmGwHwYLvzxOczObPZKdUbwcdxQwnTzjdeWwyMhRjRLgaIBT_pWibdHoreSLgcZbAOmzcTdDtuvCQPBUvywyyQH_XjFUuWmGtkgMXCrhLTqiiEYbcyQigcekGmctNJJWHpKgkqysGOmfbaSSKfswGDaRGwFlbyUBJTbuutrmAYcRq_JhUJjjSNQDOuaplNRIvkVI_YZSoFwicIbGnYQRPlkxCXgASCBnGTXFfBiwlQvMRibFTTCNx_uJAZFctZAmEIcJmVclqVhzrXfVwahzAprHaNFFxGDMQIIJGSTysRXcTvTdvlgTsBmPSUjZPWpkSUjiPWOeGkHjSOogudLLalVPWtrmjviVcnKzLlOZWCMHvDyDgDgnLeKi_TLWfcvMBmHfEqUIPnpXYNVTwnGgPwKzdd_sZsuvI_GIwT_rkXXZpnJmztbtWPyGbIBc11515392" rows="7" cols="20" readonly="readonly" id="xWWqsrHNXTHRvaYJ_PxUEozdAvJNSbLZK_HDlCGyhLCABqABCcxaZcmIYtpxivvxIjGvSUYyI_oumzcLvHKrfl_jOzgtNKPmQGtTjFjjDzRaotXZReBbkDSXjYgUogkzkBdgFIdpYcngUZvWcGbkIpBNoWkLZPvYOTrnPrUJANCIQmDKdKthEAqw_QskYSPJiPRAjIGlnSjwnuxCTaiPWNTOdwn__kljytaBVCbUDIvnRvIFTqRzkAoUwDYoWGmDhAyvUwhQzOLOThxjnhgKSmzyEFGSfozyWrFRxOmYIA_WpZBPGpBpbclwBAqOqPmLPOscbfnYwIBRmdIgErLqnJWvGKQwZYjtPpGbiapbCduTaTJZtJJzExZGsxWQPrzYZJCyWhyfCkoJQDVnBsCPOlpSQAjlEYMLeWuRRLDMMfwUIPqpcjOYokJpVkiVyNbeXcguJEVrprDjpUKAKvJVKpYvMFxhdiOzERxhkxfYNYjxga_AaiKCEFUjEliDIpNGdFfXXeROQmHmFbOmGwHwYLvzxOczObPZKdUbwcdxQwnTzjdeWwyMhRjRLgaIBT_pWibdHoreSLgcZbAOmzcTdDtuvCQPBUvywyyQH_XjFUuWmGtkgMXCrhLTqiiEYbcyQigcekGmctNJJWHpKgkqysGOmfbaSSKfswGDaRGwFlbyUBJTbuutrmAYcRq_JhUJjjSNQDOuaplNRIvkVI_YZSoFwicIbGnYQRPlkxCXgASCBnGTXFfBiwlQvMRibFTTCNx_uJAZFctZAmEIcJmVclqVhzrXfVwahzAprHaNFFxGDMQIIJGSTysRXcTvTdvlgTsBmPSUjZPWpkSUjiPWOeGkHjSOogudLLalVPWtrmjviVcnKzLlOZWCMHvDyDgDgnLeKi_TLWfcvMBmHfEqUIPnpXYNVTwnGgPwKzdd_sZsuvI_GIwT_rkXXZpnJmztbtWPyGbIBc11515392" disabled="disabled" class="noselect" style="background-color:#F4F4F4;width:99%;display:none;">J9HFT wkaTI xZ VZ aFczF JB1e9 Cp99O xJ62x edspM BZtgr R4l4S iVpCW hiCFr gkbem X2GzU 7oXWd UiUYt IeesG LvDgq 6LW7F sYo4D YyVkV </textarea>
+                                        
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="tblrow">
+                                <td colspan="2" style="height: 5px;"></td>
+                            </tr>
+                            <tr class="tblrow">
+                                <td colspan="2" class="txtbold" style="padding: 3px 0px 0px 3px;" align="left">
+                                    <img id="imgAlertSelect" src="Quiz_files/pointer5.gif" style="display: none; visibility: hidden;">Select the correct option
+                                            <div style="float: right; display: normal; margin-right: 5px;">
+                                                
+                                            </div>
+                                </td>
+                            </tr>
+
+                            <tr class="tblrow">
+                                <td colspan="2" valign="top">
+                                    
+                                    <table id="tblAnswer" style="height: 300px;" width="100%" cellspacing="2" cellpadding="0" border="0">
+			<tbody><tr>
+				<td style="padding-top:0px; background-color:#E6EDF7; border: 1px solid #287CAC; " width="50" valign="middle" align="center"><span class="ListControl"><input id="radioBtn0" type="radio" name="rbtn" value="0" onclick="EnableNextButton();"></span></td>
+				<td style="padding-top:0px;padding-left:0px;padding-right:0px;padding-bottom:0px;height:75px; border: 1px solid #287CAC;" valign="top" align="left"><textarea name="lblAnswer0" rows="3" cols="20" readonly="readonly" id="lblAnswer0" disabled="disabled" class="aspNetDisabled noselect" style="width:100%;min-height:75px;max-height:180px;background:white;border:none;height: 100%;padding:5px;">0</textarea></td>
+			</tr>
+			<tr>
+				<td style="padding-top:0px; background-color:#E6EDF7; border: 1px solid #287CAC; " width="50" valign="middle" align="center"><span class="ListControl"><input id="radioBtn1" type="radio" name="rbtn" value="1" onclick="EnableNextButton();"></span></td>
+				<td style="padding-top:0px;padding-left:0px;padding-right:0px;padding-bottom:0px;height:75px; border: 1px solid #287CAC;" valign="top" align="left"><textarea name="lblAnswer1" rows="3" cols="20" readonly="readonly" id="lblAnswer1" disabled="disabled" class="aspNetDisabled noselect" style="width:100%;min-height:75px;max-height:180px;background:white;border:none;height: 100%;padding:5px;">1</textarea></td>
+			</tr>
+			<tr>
+				<td style="padding-top:0px; background-color:#E6EDF7; border: 1px solid #287CAC; " width="50" valign="middle" align="center"><span class="ListControl"><input id="radioBtn2" type="radio" name="rbtn" value="2" onclick="EnableNextButton();"></span></td>
+				<td style="padding-top:0px;padding-left:0px;padding-right:0px;padding-bottom:0px;height:75px; border: 1px solid #287CAC;" valign="top" align="left"><textarea name="lblAnswer2" rows="3" cols="20" readonly="readonly" id="lblAnswer2" disabled="disabled" class="aspNetDisabled noselect" style="width:100%;min-height:75px;max-height:180px;background:white;border:none;height: 100%;padding:5px;">2</textarea></td>
+			</tr>
+			<tr>
+				<td style="padding-top:0px; background-color:#E6EDF7; border: 1px solid #287CAC; " width="50" valign="middle" align="center"><span class="ListControl"><input id="radioBtn3" type="radio" name="rbtn" value="3" onclick="EnableNextButton();"></span></td>
+				<td style="padding-top:0px;padding-left:0px;padding-right:0px;padding-bottom:0px;height:75px; border: 1px solid #287CAC;" valign="top" align="left"><textarea name="lblAnswer3" rows="3" cols="20" readonly="readonly" id="lblAnswer3" disabled="disabled" class="aspNetDisabled noselect" style="width:100%;min-height:75px;max-height:180px;background:white;border:none;height: 100%;padding:5px;">-1</textarea></td>
+			</tr>
+		</tbody></table>
+		
+                                    
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <div style="text-align: right;">
+                                        <img id="imgAlertSave" src="Quiz_files/pointer5.gif" style="visibility: hidden;">
+                                        <span style="visibility: hidden; font-size: medium; font-weight: bold;" id="msgSubmit">&nbsp;</span>
+                                        <input type="submit" name="btnSave" value="Click to Save Answer &amp; Move to Next Question" onclick="javascript: return NextButtonStatus(this);" id="btnSave" class="btn btn-primary" disabled="true" style="width:350px;">
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody></table>
+                    </td>
+	</tr>
+</tbody></table>
+
+        </div>
+    
+
+<script type="text/javascript">
+//<![CDATA[
+
+WebForm_InitCallback();//]]>
+</script>
+</form>
+
+
+</body></html>
