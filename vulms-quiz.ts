@@ -121,12 +121,12 @@ Note: Do not explain the answer. Just provide the option number without the opti
 
         const Prompt = buildChatGPTPrompt(Question, Quiz.choices);
 
-        console.log(Prompt);
+        console.info(Prompt);
 
         await Page.waitForNavigation({ timeout: DefaultNavigationTimeout });
         await startQuiz();
       } else {
-        console.log("Unexpected question page layout!");
+        console.warn("Unexpected question page layout!");
 
         const Answers = await inquirer.prompt([
           {
