@@ -2,14 +2,15 @@ import puppeteer from "puppeteer";
 import path from "path";
 import fs from "fs";
 
+require("dotenv").config();
+
 const Argv = require("minimist")(process.argv.slice(2));
 
 const ExpectedIpCount = Argv.limit ?? Argv.Limit ?? Argv.LIMIT ?? 50;
-const RawCookieString =
-  "notice=1; notice_time=1683538037; 247c84935371dbf1192a48bbc1fdcdc8=d42d70fc8c5868e445d775d21d214484cb1d4e62a%3A4%3A%7Bi%3A0%3Bs%3A6%3A%22265611%22%3Bi%3A1%3Bs%3A12%3A%22saffellikhan%22%3Bi%3A2%3Bi%3A2592000%3Bi%3A3%3Ba%3A0%3A%7B%7D%7D; loginCookie=jEHTFzLZKC; PHPSESSID=3n54gdoo3atovcj64sbin2106n";
+const RawCookieString = process.env.DICHVUSOCKS_COOKIES;
 
 const TargetUrl = "https://dichvusocks.us/sockslist";
-const CookiesObject = RawCookieString.split(";").map((cookie) => {
+const CookiesObject = RawCookieString?.split(";").map((cookie) => {
   const Kv = cookie.trim().split("=");
   return {
     name: Kv[0],
@@ -32,9 +33,11 @@ const Ips: string[] = [];
 
     await Page.goto(TargetUrl);
 
-    await Page.setCookie(...CookiesObject);
+    if (CookiesObject) {
+      await Page.setCookie(...CookiesObject);
 
-    await Page.goto(TargetUrl);
+      await Page.goto(TargetUrl);
+    }
 
     console.info("Activity::", "Logged In!");
 

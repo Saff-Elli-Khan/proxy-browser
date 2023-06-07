@@ -4,19 +4,17 @@ import inquirer from "inquirer";
 
 import { DefaultNavigationTimeout } from "./constants";
 
+require("dotenv").config();
+
 export const Argv = require("minimist")(process.argv.slice(2));
 
 const FirefoxUserAgent =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/113.0";
 
-const RawCookieString =
-  "_sid=0dcc3e97be1232010a9c12cc751eb233c04ef3f3266ab65fd8c7fb0f235f4324; _gid=GA1.3.1762653630.1686131138; _gat=1; ASP.NET_SessionId=nuyrwh2lq1qmjhbj4v0y41ez; _ga=GA1.1.357199455.1684305935; _ga_R2WPTZXM1P=GS1.1.1686157926.18.1.1686157955.0.0.0";
-
-const ChatGPTAccessToken =
-  "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik1UaEVOVUpHTkVNMVFURTRNMEZCTWpkQ05UZzVNRFUxUlRVd1FVSkRNRU13UmtGRVFrRXpSZyJ9.eyJodHRwczovL2FwaS5vcGVuYWkuY29tL3Byb2ZpbGUiOnsiZW1haWwiOiJzYWZmZWxsaWtoYW5AZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWV9LCJodHRwczovL2FwaS5vcGVuYWkuY29tL2F1dGgiOnsidXNlcl9pZCI6InVzZXItTW8zU1RWQzQ3Q3c2YmFpdWNnS2s4eDNiIn0sImlzcyI6Imh0dHBzOi8vYXV0aDAub3BlbmFpLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDExNTgzODEwMDgxNjE2MDUyNTM5MCIsImF1ZCI6WyJodHRwczovL2FwaS5vcGVuYWkuY29tL3YxIiwiaHR0cHM6Ly9vcGVuYWkub3BlbmFpLmF1dGgwYXBwLmNvbS91c2VyaW5mbyJdLCJpYXQiOjE2ODU4NzIzNzksImV4cCI6MTY4NzA4MTk3OSwiYXpwIjoiVGRKSWNiZTE2V29USHROOTVueXl3aDVFNHlPbzZJdEciLCJzY29wZSI6Im9wZW5pZCBwcm9maWxlIGVtYWlsIG1vZGVsLnJlYWQgbW9kZWwucmVxdWVzdCBvcmdhbml6YXRpb24ucmVhZCBvcmdhbml6YXRpb24ud3JpdGUifQ.O9pD_yyPOtxttja2AXR3f6azvlEN-scFjs0WOXQx5QTbbhy_NSD7ecCe0Zb8jZMx1WZRw3vDS_3qFD4AoDJ6E0EBCcC44RpbH6jOqbQWind2PvGlxRc2JsTivqfzKRCxaXcIqTTaT3fvelJQ77nE4C6zcWy2hg1U_x5SlacYKfFNcX8srbmKH5NmrFdsUsgoXXZCERjVCnaMZPaUimOyLQLc96LNmPMQSJPV0_agf11HMzpAr4Hux0p422BP1uJl9daBC70x5nlSef8Sv1bJodbMljBCai2PPzi-RbDwg0UqbXVbQ9IIZQOrsuuO_-ocX0icF8fKXPeckMT2ES1kfw";
+const RawCookieString = process.env.VULMS_COOKIES;
 
 const TargetUrl = "https://vulms.vu.edu.pk/Quiz/QuizList.aspx";
-const CookiesObject = RawCookieString.split(";").map((cookie) => {
+const CookiesObject = RawCookieString?.split(";").map((cookie) => {
   const Kv = cookie.trim().split("=");
   return {
     name: Kv[0],
@@ -47,9 +45,11 @@ Note: Do not explain the answer. Just provide the option number without the opti
 
   await Page.goto(TargetUrl, { timeout: DefaultNavigationTimeout });
 
-  await Page.setCookie(...CookiesObject);
+  if (CookiesObject) {
+    await Page.setCookie(...CookiesObject);
 
-  await Page.goto(TargetUrl, { timeout: DefaultNavigationTimeout });
+    await Page.goto(TargetUrl, { timeout: DefaultNavigationTimeout });
+  }
 
   console.info("Activity::", "Logged In!");
 
