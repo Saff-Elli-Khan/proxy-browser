@@ -2,8 +2,6 @@ import puppeteer from "puppeteer";
 import path from "path";
 import inquirer from "inquirer";
 
-import { DefaultNavigationTimeout } from "./constants";
-
 require("dotenv").config();
 
 export const Argv = require("minimist")(process.argv.slice(2));
@@ -32,6 +30,8 @@ Note: Do not explain the answer. Just provide the option number without the opti
 `;
 
 (async () => {
+  const { DefaultNavigationTimeout } = await import("./constants");
+
   const Browser = await puppeteer.launch({
     headless:
       Argv.headless ?? Argv.HEADLESS ?? Argv.Headless ?? true ? "new" : false,
