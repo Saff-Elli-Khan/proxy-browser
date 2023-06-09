@@ -45,6 +45,10 @@ const ProxyURLs = ProxyEnabled
     ? ProxyList.map((proxy) => new URL(`${ProxyListProtocol}://${proxy}`))
     : [new URL("socks5://127.0.0.1:" + TorPort)]
   : [];
+const RawTimeframeMs =
+  Argv.timeframeMs ?? Argv.TimeframeMs ?? Argv.TIMEFRAME_MS;
+const TimeframeMs =
+  typeof RawTimeframeMs === "string" ? RawTimeframeMs : undefined;
 
 export type GeoData = {
   ip: string;
@@ -96,7 +100,8 @@ export const getGeoData = async (options?: GeoDataOptions): Promise<GeoData> =>
       ip: res.data.geoplugin_request,
       country: res.data.geoplugin_countryName,
       language:
-        countries[res.data.geoplugin_countryName]?.languages ?? "en-US,en",
+        countries[res.data.geoplugin_countryName as keyof typeof countries]
+          ?.languages ?? "en-US,en",
       timezone: res.data.geoplugin_timezone,
       latitude:
         res.data.geoplugin_latitude !== null
@@ -177,9 +182,14 @@ const TargetWebsites = (
   .map((url) => new URL(url));
 let GeoDataCache: GeoData | void;
 
+export type BrowserProfileCallback = (
+  profile: BrowserProfile,
+  index: number
+) => void | Promise<void>;
+
 export const forEachBrowserProfile = async (
   profileLimit: number | { limit: number; offset?: number },
-  callback: (profile: BrowserProfile, index: number) => void | Promise<void>
+  callback: BrowserProfileCallback
 ) => {
   if (
     !["number", "object"].includes(typeof profileLimit) ||
@@ -190,7 +200,15 @@ export const forEachBrowserProfile = async (
   const LimitOffset =
     typeof profileLimit === "number" ? { limit: profileLimit } : profileLimit;
 
+  const WaitTime = TimeframeMs
+    ? eval(TimeframeMs) / LimitOffset.limit
+    : undefined;
+
+  let IterationTimestamp: number;
+
   for (let i = LimitOffset.offset ?? 0; i < LimitOffset.limit; i++) {
+    IterationTimestamp = Date.now();
+
     const ProfileIndex = i + 1;
     const ProxyURL = getElementAtIndex(i, ProxyURLs);
 
@@ -203,14 +221,14 @@ export const forEachBrowserProfile = async (
           proxy:
             ProxyURL instanceof URL ? new SocksProxyAgent(ProxyURL) : undefined,
         }).catch((error) =>
-          console.error(error, "Profile Index:", ProfileIndex)
+          console.error(error.message, "Profile Index:", ProfileIndex)
         )
       : GeoDataCache ??
         (await getGeoData({
           proxy:
             ProxyURL instanceof URL ? new SocksProxyAgent(ProxyURL) : undefined,
         }).catch((error) =>
-          console.error(error, "Profile Index:", ProfileIndex)
+          console.error(error.message, "Profile Index:", ProfileIndex)
         ));
 
     if (!GeoDataCache) {
@@ -290,5 +308,13 @@ export const forEachBrowserProfile = async (
     await callback(Profile, i);
 
     if (Tor) await stopTor(Tor).catch(console.error);
+
+    if (typeof WaitTime === "number") {
+      const FinalWaitTime = WaitTime - (Date.now() - IterationTimestamp);
+
+      console.info("Waiting for:", FinalWaitTime);
+
+      await new Promise((_) => setTimeout(_, FinalWaitTime));
+    }
   }
 };

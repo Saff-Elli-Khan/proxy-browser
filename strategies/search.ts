@@ -48,10 +48,15 @@ export const SearchStrategies = {
 
     console.info("Activity::", "Matched Links:", linksList);
 
-    if (!linksList || !linksList.length)
-      throw new Error(
-        `We didn't found the exptected host on the Google's search list!`
+    if (!linksList || !linksList.length) {
+      console.warn(
+        "We didn't found the exptected host on the Google's search list!"
       );
+
+      await page.goto(url.toString());
+
+      return page;
+    }
 
     const TargetLink = linksList[0];
     const TargetLinkSelector = `a[href="${TargetLink}"]`;
