@@ -9,6 +9,7 @@ import { BrowserProfile, forEachBrowserProfile } from "./profiles";
 import { randomIntegerFromRange, getRandomArrayElement } from "./utils";
 import { ViewStrategies } from "./strategies/view";
 import { SearchStrategies } from "./strategies/search";
+import { scarpeIps } from "./scrape-ips";
 
 // Evasions
 import AudioEvasion from "./evasions/audio";
@@ -224,6 +225,21 @@ async function main() {
       } catch (error) {
         console.error(error);
       }
+    },
+    {
+      async getProxy(ips, limit) {
+        const Ips: string[] = [];
+
+        await scarpeIps({
+          ipcount: limit,
+          ips: Ips,
+          argv: Argv,
+        }).catch(console.error);
+
+        for (const Ip of Ips) ips.push(new URL(Ip));
+
+        return ips;
+      },
     }
   );
 }

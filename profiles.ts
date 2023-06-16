@@ -11,6 +11,7 @@ import { getDevices, Device, generateDevice, staticDevices } from "./useragent";
 
 const ProxyEnabled =
   Argv.enableProxy ?? Argv.EnableProxy ?? Argv.ENABLE_PROXY ?? true;
+const TorEnabled = Argv.tor ?? Argv.Tor ?? Argv.TOR ?? true;
 const CustomProxyUrl =
   Argv.proxyURL ??
   Argv.proxyUrl ??
@@ -24,10 +25,6 @@ const ProxyListPath = ProxyListCmd?.[0];
 const ProxyListRange = ProxyListPath
   ? ProxyListCmd?.[1]?.split("-").map(parseInt).filter(Boolean)
   : undefined;
-const ProxyListProtocol = (Argv.proxyListProtocol ??
-  Argv.ProxyListProtocol ??
-  Argv.PROXY_LIST_PROTOCOL ??
-  "http") as string;
 const ProxyList = ProxyListPath
   ? fs
       .readFileSync(path.join(process.cwd(), ProxyListPath))
@@ -42,8 +39,10 @@ const ProxyURLs = ProxyEnabled
   ? CustomProxyUrl
     ? [new URL(CustomProxyUrl)]
     : ProxyList instanceof Array
-    ? ProxyList.map((proxy) => new URL(`${ProxyListProtocol}://${proxy}`))
-    : [new URL("socks5://127.0.0.1:" + TorPort)]
+    ? ProxyList.map((proxy) => new URL(proxy))
+    : TorEnabled
+    ? [new URL("socks5://127.0.0.1:" + TorPort)]
+    : []
   : [];
 const RawTimeframeMs =
   Argv.timeframeMs ?? Argv.TimeframeMs ?? Argv.TIMEFRAME_MS;
@@ -173,7 +172,8 @@ export const stopTor = async (pr: ChildProcessWithoutNullStreams) => {
   return true;
 };
 
-const TorEnabled = ProxyEnabled && !CustomProxyUrl && !ProxyList;
+const TorAvailable =
+  ProxyEnabled && !CustomProxyUrl && !ProxyList && TorEnabled;
 const TargetWebsites = (
   (Argv.w ?? Argv.website ?? Argv.Website ?? Argv.WEBSITE ?? "") as string
 )
@@ -189,7 +189,10 @@ export type BrowserProfileCallback = (
 
 export const forEachBrowserProfile = async (
   profileLimit: number | { limit: number; offset?: number },
-  callback: BrowserProfileCallback
+  callback: BrowserProfileCallback,
+  options?: {
+    getProxy?: (ips: URL[], limit: number) => URL[] | Promise<URL[]>;
+  }
 ) => {
   if (
     !["number", "object"].includes(typeof profileLimit) ||
@@ -204,15 +207,26 @@ export const forEachBrowserProfile = async (
     ? eval(TimeframeMs) / LimitOffset.limit
     : undefined;
 
+  const GotIps: URL[] = [];
+
   let IterationTimestamp: number;
 
   for (let i = LimitOffset.offset ?? 0; i < LimitOffset.limit; i++) {
     IterationTimestamp = Date.now();
 
-    const ProfileIndex = i + 1;
-    const ProxyURL = getElementAtIndex(i, ProxyURLs);
+    if (ProxyEnabled && !ProxyURLs.length) {
+      const GetProxyLimit = 5;
 
-    const Tor = TorEnabled ? startTor() : undefined;
+      if (i % GetProxyLimit === 0)
+        await options?.getProxy?.(GotIps, GetProxyLimit);
+    }
+
+    const ProfileIndex = i + 1;
+    const ProxyURL = ProxyEnabled
+      ? getElementAtIndex(i, ProxyURLs.length ? ProxyURLs : GotIps)
+      : undefined;
+
+    const Tor = TorAvailable ? startTor() : undefined;
 
     if (Tor) await waitForTorStart(Tor);
 
@@ -263,7 +277,7 @@ export const forEachBrowserProfile = async (
     //   await cacheList(IpListKey, IpList);
     // }
 
-    const TargetDevice = getRandomArrayElement(
+    const KnownDevices =
       Argv.useKnownDevices ?? Argv.UseKnownDevices ?? Argv.USE_KNOWN_DEVICES
         ? Object.values(
             getDevices({
@@ -280,9 +294,12 @@ export const forEachBrowserProfile = async (
               ),
             })
           )
-        : Argv.useGeneratedDevices ??
-          Argv.UseGeneratedDevices ??
-          Argv.USE_GENERATED_DEVICES
+        : [];
+
+    const GeneratedDevices =
+      Argv.useGeneratedDevices ??
+      Argv.UseGeneratedDevices ??
+      Argv.USE_GENERATED_DEVICES
         ? [
             generateDevice({
               deviceScaleFactor:
@@ -293,8 +310,18 @@ export const forEachBrowserProfile = async (
                   : undefined,
             }),
           ]
-        : staticDevices()
-    );
+        : [];
+
+    const StaticDevices =
+      Argv.useStaticDevices ?? Argv.UseStaticDevices ?? Argv.USE_STATIC_DEVICES
+        ? staticDevices()
+        : [];
+
+    const TargetDevice = getRandomArrayElement([
+      ...KnownDevices,
+      ...GeneratedDevices,
+      ...StaticDevices,
+    ]);
 
     const Profile = {
       websites: TargetWebsites,

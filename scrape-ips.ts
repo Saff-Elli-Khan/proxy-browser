@@ -1,12 +1,9 @@
-import puppeteer from "puppeteer";
+import puppeteer, { Browser, Page } from "puppeteer";
 import path from "path";
 import fs from "fs";
 
 require("dotenv").config();
 
-const Argv = require("minimist")(process.argv.slice(2));
-
-const ExpectedIpCount = Argv.limit ?? Argv.Limit ?? Argv.LIMIT ?? 50;
 const RawCookieString = process.env.DICHVUSOCKS_COOKIES;
 
 const TargetUrl = "https://dichvusocks.us/sockslist";
@@ -18,14 +15,27 @@ const CookiesObject = RawCookieString?.split(";").map((cookie) => {
   };
 });
 
-const Ips: string[] = [];
+export const scarpeIps = async (options: {
+  ipcount: number;
+  ips: string[];
+  argv: Record<string, any>;
+}) => {
+  let Browser: Browser | undefined;
 
-(async () => {
   try {
-    const Browser = await puppeteer.launch({
+    Browser = await puppeteer.launch({
       headless:
-        Argv.headless ?? Argv.HEADLESS ?? Argv.Headless ?? true ? "new" : false,
-      devtools: Argv.devtools ?? Argv.DevTools ?? Argv.DEV_TOOLS ?? false,
+        options.argv.headless ??
+        options.argv.HEADLESS ??
+        options.argv.Headless ??
+        true
+          ? "new"
+          : false,
+      devtools:
+        options.argv.devtools ??
+        options.argv.DevTools ??
+        options.argv.DEV_TOOLS ??
+        false,
       userDataDir: path.join(process.cwd(), "./puppeteer/data/scrapper/"),
     });
 
@@ -35,7 +45,6 @@ const Ips: string[] = [];
 
     if (CookiesObject) {
       await Page.setCookie(...CookiesObject);
-
       await Page.goto(TargetUrl);
     }
 
@@ -116,7 +125,7 @@ const Ips: string[] = [];
       let Exit = false;
 
       for (let id of Ids)
-        if (Ips.length < ExpectedIpCount) {
+        if (options.ips.length < options.ipcount) {
           await new Promise((res) => setTimeout(res, 1000));
 
           const Ip = await Page.evaluate(async (id) => {
@@ -161,7 +170,7 @@ const Ips: string[] = [];
               Ip
             )
           )
-            Ips.push(Ip);
+            options.ips.push(`socks5://${Ip}`);
 
           console.info("Activity::", "Got Ip:", Ip);
 
@@ -176,40 +185,55 @@ const Ips: string[] = [];
       pageNumber++;
 
       if (pageNumber > PagesCount) break;
-    } while (Ips.length < ExpectedIpCount);
-
-    await Browser.close();
+    } while (options.ips.length < options.ipcount);
   } catch (error) {
     console.error(error);
   }
 
-  const IpListDirPath = path.join(process.cwd(), "./ips");
+  await Browser?.close().catch(console.error);
 
-  if (!fs.existsSync(IpListDirPath)) fs.mkdirSync(IpListDirPath);
+  try {
+    const IpListDirPath = path.join(process.cwd(), "./ips");
 
-  const IpListPath = path.join(
-    IpListDirPath,
-    `./${new Date()
-      .toLocaleDateString([], {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-      })
-      .replace(/\//g, "-")}_ips.txt`
-  );
+    if (!fs.existsSync(IpListDirPath)) fs.mkdirSync(IpListDirPath);
 
-  const ExistingIps = fs.existsSync(IpListPath)
-    ? fs
-        .readFileSync(IpListPath)
-        .toString()
-        .trim()
-        .split("\n")
-        .filter(Boolean)
-        .map((ip) => ip.trim())
-    : [];
+    const IpListPath = path.join(
+      IpListDirPath,
+      `./${new Date()
+        .toLocaleDateString([], {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+        })
+        .replace(/\//g, "-")}_ips.txt`
+    );
 
-  fs.writeFileSync(
-    IpListPath,
-    Array.from(new Set([...ExistingIps, ...Ips])).join("\n")
-  );
-})();
+    const ExistingIps = fs.existsSync(IpListPath)
+      ? fs
+          .readFileSync(IpListPath)
+          .toString()
+          .trim()
+          .split("\n")
+          .filter(Boolean)
+          .map((ip) => ip.trim())
+      : [];
+
+    fs.writeFileSync(
+      IpListPath,
+      Array.from(new Set([...ExistingIps, ...options.ips])).join("\n")
+    );
+  } catch (error) {
+    console.error(error);
+  }
+
+  return options.ips;
+};
+
+if (require.main === module) {
+  const Argv = require("minimist")(process.argv.slice(2));
+  scarpeIps({
+    ipcount: Argv.limit ?? Argv.Limit ?? Argv.LIMIT ?? 50,
+    ips: [],
+    argv: Argv,
+  });
+}
