@@ -1,4 +1,4 @@
-import puppeteer, { Browser, Page } from "puppeteer";
+import puppeteer, { Browser } from "puppeteer";
 import path from "path";
 import fs from "fs";
 
@@ -47,6 +47,9 @@ export const scarpeIps = async (options: {
       await Page.setCookie(...CookiesObject);
       await Page.goto(TargetUrl);
     }
+
+    if (new URL(Page.url()).pathname !== "/sockslist")
+      throw new Error(`Login has been failed!`);
 
     console.info("Activity::", "Logged In!");
 
