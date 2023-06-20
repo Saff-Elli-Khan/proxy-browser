@@ -9,10 +9,12 @@ const RegularBrowsers = ["chrome", "firefox", "safari", "amazon"];
 
 for (let Key in KnownDevices)
   if (KnownDevices.hasOwnProperty(Key)) {
-    const UAP = UAParser.parse(KnownDevices[Key].userAgent);
+    const UAP = UAParser.parse(
+      KnownDevices[Key as keyof typeof KnownDevices].userAgent
+    );
 
     Devices[Key] = {
-      ...KnownDevices[Key],
+      ...KnownDevices[Key as keyof typeof KnownDevices],
       userAgentDetails: UAP,
       isRegular: RegularBrowsers.reduce(
         (is, browser) =>
@@ -74,7 +76,8 @@ export type Device = KnownDevice & {
   isRegular: boolean;
 };
 
-export const getDevices = (options?: {
+export const getKnownDevices = (options?: {
+  name?: string;
   unIncludeIrregular?: boolean;
   latestThreshold?: number;
 }): Record<keyof typeof KnownDevices, Device> => {
@@ -99,7 +102,9 @@ export const getDevices = (options?: {
           FilteredDevices[Key] = TargetDevice;
       }
 
-    return FilteredDevices;
+    return typeof options.name === "string"
+      ? [FilteredDevices[options.name]]
+      : FilteredDevices;
   } else return Devices;
 };
 

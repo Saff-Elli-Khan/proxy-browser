@@ -15,7 +15,7 @@ export const SearchStrategies = {
       });
 
       const SearchBoxSelector =
-        '.gLFyf,input[type="text"][aria-label="Google Search"],textarea[aria-label="Search"]';
+        '.gLFyf,input[type="text"][aria-label="Google Search"],textarea[aria-label="Search"],#lst-ib';
 
       await page.waitForSelector(SearchBoxSelector);
       await page.hover(SearchBoxSelector);
@@ -28,24 +28,26 @@ export const SearchStrategies = {
         await page.keyboard.type(char);
       }
 
-      await page.keyboard.press("Enter", { delay: 500 });
+      await Promise.all([
+        page.waitForNavigation({
+          timeout: DefaultNavigationTimeout,
+        }),
+        page.keyboard.press("Enter", { delay: 500 }),
+      ]);
 
-      await page.waitForNavigation({
-        timeout: DefaultNavigationTimeout,
-      });
+      const linksList = await page
+        .evaluate((host) => {
+          const linkElements = Array.from(document.querySelectorAll("a"));
+          const links = linkElements
+            .filter((element) => element.getAttribute("href")?.includes(host))
+            .map((element) => ({
+              href: element.href,
+              text: element.getAttribute("href")!,
+            }));
 
-      const linksList = (
-        await page
-          .evaluate(() => {
-            const linkElements = Array.from(document.querySelectorAll("a"));
-            const links = linkElements
-              .filter((element) => element.href)
-              .map((element) => element.href);
-
-            return links;
-          })
-          .catch(console.error)
-      )?.filter((link) => link.includes(url.hostname));
+          return links;
+        }, url.hostname)
+        .catch(console.error);
 
       console.info("Activity::", "Matched Links:", linksList);
 
@@ -55,12 +57,18 @@ export const SearchStrategies = {
         );
 
       const TargetLink = linksList[0];
-      const TargetLinkSelector = `a[href="${TargetLink}"]`;
+      const TargetLinkSelector = `a[href="${TargetLink.text}"]`;
 
       await page.mouse.wheel({ deltaY: 300 });
+      await page.waitForTimeout(500);
+      await page.mouse.wheel({ deltaY: 300 });
+      await page.waitForTimeout(500);
+      await page.mouse.wheel({ deltaY: 300 });
+
+      await page.waitForTimeout(1000);
       await page.hover(TargetLinkSelector);
 
-      console.info("Activity::", "Navigating to:", TargetLink);
+      console.info("Activity::", "Navigating to:", TargetLink.href);
 
       await Promise.all([
         page.waitForNavigation({

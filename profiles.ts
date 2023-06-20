@@ -7,7 +7,12 @@ import { Argv } from "./constants";
 import { SocksProxyAgent } from "socks-proxy-agent";
 import { ChildProcessWithoutNullStreams, spawn } from "child_process";
 import { getElementAtIndex, getRandomArrayElement } from "./utils";
-import { getDevices, Device, generateDevice, staticDevices } from "./useragent";
+import {
+  getKnownDevices,
+  Device,
+  generateDevice,
+  staticDevices,
+} from "./useragent";
 
 const ProxyEnabled =
   Argv.enableProxy ?? Argv.EnableProxy ?? Argv.ENABLE_PROXY ?? true;
@@ -280,7 +285,8 @@ export const forEachBrowserProfile = async (
     const KnownDevices =
       Argv.useKnownDevices ?? Argv.UseKnownDevices ?? Argv.USE_KNOWN_DEVICES
         ? Object.values(
-            getDevices({
+            getKnownDevices({
+              name: Argv.knownDevice ?? Argv.KnownDevice ?? Argv.KNOWN_DEVICE,
               unIncludeIrregular:
                 Argv.unIncludeIrregularBrowsers ??
                 Argv.UnIncludeIrregularBrowsers ??

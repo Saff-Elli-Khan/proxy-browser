@@ -210,12 +210,16 @@ async function main() {
                           continue: true,
                         }
                       ),
-                async () =>
-                  TargetStrategy(
-                    url,
-                    await createPage(Browser, profile),
-                    StrategyOpts
-                  ),
+                ...(Argv.searchOnly ?? Argv.SearchOnly ?? Argv.SEARCH_ONLY
+                  ? []
+                  : [
+                      async () =>
+                        TargetStrategy(
+                          url,
+                          await createPage(Browser, profile),
+                          StrategyOpts
+                        ),
+                    ]),
               ].filter(Boolean)
             )()
           )
@@ -227,19 +231,22 @@ async function main() {
       }
     },
     {
-      async getProxy(ips, limit) {
-        const Ips: string[] = [];
+      getProxy:
+        Argv.scrapeIps ?? Argv.ScrapeIps ?? Argv.SCRAPE_IPS
+          ? async (ips, limit) => {
+              const Ips: string[] = [];
 
-        await scarpeIps({
-          ipcount: limit,
-          ips: Ips,
-          argv: Argv,
-        }).catch(console.error);
+              await scarpeIps({
+                ipcount: limit,
+                ips: Ips,
+                argv: Argv,
+              }).catch(console.error);
 
-        for (const Ip of Ips) ips.push(new URL(Ip));
+              for (const Ip of Ips) ips.push(new URL(Ip));
 
-        return ips;
-      },
+              return ips;
+            }
+          : undefined,
     }
   );
 }
