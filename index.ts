@@ -139,6 +139,8 @@ async function main() {
 
             ...(EnableEvasions !== false
               ? [
+                  "--single-process",
+                  "--no-zygote",
                   "--disable-features=WebRtcHideLocalIpsWithMdns",
                   "--disable-webrtc-encryption",
                   "--disable-rtc-smoothness-algorithm",
@@ -225,7 +227,9 @@ async function main() {
           )
         ).catch(console.error);
 
-        await Browser.close();
+        Browser.close();
+
+        console.info("Activity::", "Browser Closed!");
       } catch (error) {
         console.error(error);
       }

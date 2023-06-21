@@ -184,30 +184,30 @@ export const ViewStrategies = [
 
     if (options?.randomlyNavigate !== false) {
       const linksList = await page
-        .evaluate(() => {
+        .evaluate((host) => {
           const linkElements = Array.from(document.querySelectorAll("a"));
           const links = linkElements
-            .filter((element) => element.href)
-            .map((element) => element.href);
+            .filter((element) => element.getAttribute("href")?.includes(host))
+            .map((element) => ({
+              href: element.href,
+              text: element.getAttribute("href")!,
+            }));
 
           return links;
-        })
+        }, url.hostname)
         .catch(console.error);
 
       if (linksList instanceof Array && linksList.length) {
         const TargetLink = getRandomArrayElement(
-          linksList.filter((link) => {
-            const Link = new URL(link).toString();
-            return Link !== TargetUrl && url.toString() === Link;
-          })
+          linksList.filter(({ href }) => href !== TargetUrl)
         );
 
-        const TargetSelector = `a[href="${TargetLink}"]`;
+        const TargetSelector = `a[href="${TargetLink.text}"]`;
 
         if (await page.$(TargetSelector)) {
           await page.hover(TargetSelector).catch(console.error);
 
-          console.info("Activity::", "Visiting:", TargetLink);
+          console.info("Activity::", "Visiting:", TargetLink.href);
 
           await Promise.all([
             page
