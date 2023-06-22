@@ -32,6 +32,26 @@ const ProfilesLimit = parseInt(
   Argv.l ?? Argv.limit ?? Argv.Limit ?? Argv.LIMIT ?? "100"
 );
 
+const RawSearchStrategyPropertyCmd = (Argv.searchStrategy ??
+  Argv.SearchStrategy ??
+  Argv.SEARCH_STRATEGY) as string | undefined;
+const SearchStrategyPropertyCmd = (
+  typeof RawSearchStrategyPropertyCmd !== "undefined"
+    ? RawSearchStrategyPropertyCmd.toString()
+    : undefined
+)?.split("?");
+const SearchStrategyProperty = SearchStrategyPropertyCmd?.[0];
+console.log(SearchStrategyPropertyCmd?.[1]);
+const SearchStrategyOpts = SearchStrategyProperty
+  ? SearchStrategyPropertyCmd?.[1]?.split("&").reduce((opts, kv) => {
+      const Kv = kv.split("=");
+      return {
+        ...opts,
+        [Kv[0]]: eval(Kv[1]),
+      };
+    }, {})
+  : undefined;
+
 const RawStrategyIndexCmd = (Argv.strategy ??
   Argv.Strategy ??
   Argv.STRATEGY) as string | undefined;
@@ -139,8 +159,6 @@ async function main() {
 
             ...(EnableEvasions !== false
               ? [
-                  "--single-process",
-                  "--no-zygote",
                   "--disable-features=WebRtcHideLocalIpsWithMdns",
                   "--disable-webrtc-encryption",
                   "--disable-rtc-smoothness-algorithm",
@@ -172,6 +190,23 @@ async function main() {
           protocolTimeout: 180_000 * 100,
         });
 
+        // Resolve Search Strategy
+        const ResolvedSearchStrategyProperty =
+          SearchStrategyProperty ??
+          getRandomArrayElement(Object.keys(SearchStrategies));
+
+        const TargetSearchStrategy =
+          SearchStrategies[
+            ResolvedSearchStrategyProperty as keyof typeof SearchStrategies
+          ];
+
+        console.info(
+          "Activity::",
+          "Selected Search Strategy:",
+          ResolvedSearchStrategyProperty
+        );
+
+        // Resolve View Strategy
         const ResolvedStrategyIndex = parseInt(
           (
             StrategyIndex ??
@@ -188,43 +223,51 @@ async function main() {
           );
 
         await Promise.all(
-          profile.websites.map((url) =>
-            getRandomArrayElement(
-              [
-                (Argv.searchQuery ?? Argv.SearchQuery ?? Argv.SEARCH_QUERY) ===
-                false
-                  ? (undefined as any)
-                  : async () =>
-                      TargetStrategy(
-                        url,
-                        await SearchStrategies.google(
-                          url,
-                          await createPage(Browser, profile),
-                          {
-                            query:
-                              Argv.searchQuery ??
-                              Argv.SearchQuery ??
-                              Argv.SEARCH_QUERY,
-                          }
-                        ),
-                        {
-                          ...StrategyOpts,
-                          continue: true,
-                        }
-                      ),
-                ...(Argv.searchOnly ?? Argv.SearchOnly ?? Argv.SEARCH_ONLY
-                  ? []
-                  : [
-                      async () =>
+          profile.websites.map(async (url) => {
+            const Page = await getRandomArrayElement(
+              (
+                [
+                  typeof TargetSearchStrategy !== "function"
+                    ? (undefined as any)
+                    : async () =>
                         TargetStrategy(
                           url,
-                          await createPage(Browser, profile),
-                          StrategyOpts
+                          await TargetSearchStrategy(
+                            url,
+                            await createPage(Browser, profile),
+                            {
+                              query:
+                                Argv.searchQuery ??
+                                Argv.SearchQuery ??
+                                Argv.SEARCH_QUERY,
+                              identifier:
+                                Argv.searchIdentifier ??
+                                Argv.SearchIdentifier ??
+                                Argv.SEARCH_IDENTIFIER,
+                              ...SearchStrategyOpts,
+                            }
+                          ),
+                          {
+                            ...StrategyOpts,
+                            continue: true,
+                          }
                         ),
-                    ]),
-              ].filter(Boolean)
-            )()
-          )
+                  ...(Argv.searchOnly ?? Argv.SearchOnly ?? Argv.SEARCH_ONLY
+                    ? []
+                    : [
+                        async () =>
+                          TargetStrategy(
+                            url,
+                            await createPage(Browser, profile),
+                            StrategyOpts
+                          ),
+                      ]),
+                ] as const
+              ).filter(Boolean)
+            )();
+
+            await Page?.close?.();
+          })
         ).catch(console.error);
 
         await Promise.race([

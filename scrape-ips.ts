@@ -225,7 +225,7 @@ export const scarpeIps = async (options: {
 
     fs.writeFileSync(IpListPath, TotalIps.join("\n"));
 
-    return TotalIps;
+    return TotalIps.filter((ip) => !/^\/\/.*/.test(ip));
   } catch (error) {
     console.error(error);
   }

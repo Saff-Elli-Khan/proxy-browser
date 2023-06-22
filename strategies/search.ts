@@ -128,4 +128,112 @@ export const SearchStrategies = {
 
     return page;
   },
+  youtube: async (
+    url: URL,
+    page: Page,
+    options?: {
+      identifier?: string;
+      query?: string;
+    }
+  ) => {
+    try {
+      await page.goto("https://youtube.com", {
+        timeout: DefaultNavigationTimeout,
+      });
+
+      const ProceedOutdatedSelector =
+        'a[class="learn-more-button"][href="https://m.youtube.com/"]';
+
+      await page.click(ProceedOutdatedSelector).catch(console.error);
+
+      const AcceptSelector =
+        'button[aria-label="Accept the use of cookies and other data for the purposes described"],button[aria-label="Verwendung von Cookies und anderen Daten zu den beschriebenen Zwecken akzeptieren"]';
+
+      await page.click(AcceptSelector).catch(console.error);
+
+      if (page.url().includes("m.youtube")) {
+        const StartSearchSelector =
+          'button[aria-label="Search YouTube"].icon-button.topbar-menu-button-avatar-button,button[aria-label="Cerca su YouTube"].icon-button.topbar-menu-button-avatar-button';
+
+        await page.waitForSelector(StartSearchSelector, { visible: true });
+
+        await page.hover(StartSearchSelector);
+        await page.click(StartSearchSelector);
+      } else {
+        const SearchBoxSelector = "#search";
+
+        await page.waitForSelector(SearchBoxSelector);
+
+        await page.hover(SearchBoxSelector);
+        await page.click(SearchBoxSelector);
+      }
+
+      console.info("Activity::", "Searchbox has been focused!");
+
+      for (let char of options?.query || url.hostname)
+        await page.keyboard.type(char, { delay: 200 });
+
+      await Promise.all([
+        page.waitForNavigation({
+          timeout: DefaultNavigationTimeout,
+        }),
+        page.keyboard.press("Enter", { delay: 500 }),
+      ]);
+
+      const TargetLinkSelector = !!(await page
+        .waitForSelector(`a[href="${url.pathname}"]`, { visible: true })
+        .catch(console.error))
+        ? `a[href="${url.pathname}"]`
+        : options?.identifier
+        ? await page.evaluate((query) => {
+            const linkElements = Array.from(document.querySelectorAll("a"));
+            return `a[href="${linkElements
+              .filter((element) =>
+                element.getAttribute("href")?.includes(query)
+              )[0]
+              .getAttribute("href")}"]`;
+          }, options?.identifier)
+        : "";
+
+      if (
+        !(await page.evaluate((selector) => {
+          const Selected = document.querySelectorAll(selector);
+          return Selected.length;
+        }, TargetLinkSelector))
+      )
+        throw new Error(
+          "We didn't found the exptected url on the YouTube's search list!"
+        );
+
+      await page.mouse.wheel({ deltaY: 300 });
+      await page.waitForTimeout(500);
+      await page.mouse.wheel({ deltaY: 300 });
+      await page.waitForTimeout(500);
+      await page.mouse.wheel({ deltaY: 300 });
+
+      await page.waitForTimeout(1000);
+      await page.hover(TargetLinkSelector);
+
+      console.info(
+        "Activity::",
+        "Search Successful! Navigating to:",
+        TargetLinkSelector
+      );
+
+      await Promise.all([
+        page.waitForNavigation({
+          timeout: DefaultNavigationTimeout,
+        }),
+        page.click(TargetLinkSelector, { delay: 500 }),
+      ]);
+    } catch (error) {
+      console.warn(error);
+
+      console.info("Activity::", "Navigating Directly!");
+
+      await page.goto(url.toString());
+    }
+
+    return page;
+  },
 };

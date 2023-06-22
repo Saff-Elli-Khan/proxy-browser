@@ -44,7 +44,9 @@ const ProxyURLs = ProxyEnabled
   ? CustomProxyUrl
     ? [new URL(CustomProxyUrl)]
     : ProxyList instanceof Array
-    ? ProxyList.map((proxy) => new URL(proxy))
+    ? ProxyList.filter((proxy) => !/^\/\/.*/.test(proxy)).map(
+        (proxy) => new URL(proxy)
+      )
     : TorEnabled
     ? [new URL("socks5://127.0.0.1:" + TorPort)]
     : []
