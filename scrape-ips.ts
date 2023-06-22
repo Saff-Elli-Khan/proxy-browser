@@ -19,7 +19,7 @@ export const scarpeIps = async (options: {
   ipcount: number;
   ips: string[];
   argv: Record<string, any>;
-}) => {
+}): Promise<string[]> => {
   let Browser: Browser | undefined;
 
   try {
@@ -221,15 +221,16 @@ export const scarpeIps = async (options: {
           .map((ip) => ip.trim())
       : [];
 
-    fs.writeFileSync(
-      IpListPath,
-      Array.from(new Set([...ExistingIps, ...options.ips])).join("\n")
-    );
+    const TotalIps = Array.from(new Set([...ExistingIps, ...options.ips]));
+
+    fs.writeFileSync(IpListPath, TotalIps.join("\n"));
+
+    return TotalIps;
   } catch (error) {
     console.error(error);
   }
 
-  return options.ips;
+  return [...options.ips];
 };
 
 if (require.main === module) {

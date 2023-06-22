@@ -219,14 +219,21 @@ export const forEachBrowserProfile = async (
   for (let i = LimitOffset.offset ?? 0; i < LimitOffset.limit; i++) {
     IterationTimestamp = Date.now();
 
+    const ProfileIndex = i + 1;
+
     if (ProxyEnabled && !ProxyURLs.length) {
       const GetProxyLimit = 5;
 
-      if (i % GetProxyLimit === 0)
-        await options?.getProxy?.(GotIps, GetProxyLimit);
+      if (
+        (!GotIps.length || GotIps.length < ProfileIndex) &&
+        i % GetProxyLimit === 0
+      )
+        await options?.getProxy?.(
+          GotIps,
+          GotIps.length % GetProxyLimit || GetProxyLimit // If the GotIps length is a random number instead of the multiple of GetProxyLimit, than it should be balanced first.
+        );
     }
 
-    const ProfileIndex = i + 1;
     const ProxyURL = ProxyEnabled
       ? getElementAtIndex(i, ProxyURLs.length ? ProxyURLs : GotIps)
       : undefined;

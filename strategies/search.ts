@@ -121,8 +121,6 @@ export const SearchStrategies = {
     } catch (error) {
       console.warn(error);
 
-      await new Promise((res) => setTimeout(res, 100000000));
-
       console.info("Activity::", "Navigating Directly!");
 
       await page.goto(url.toString());

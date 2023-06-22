@@ -227,9 +227,18 @@ async function main() {
           )
         ).catch(console.error);
 
-        Browser.close();
-
-        console.info("Activity::", "Browser Closed!");
+        await Promise.race([
+          Browser.close(),
+          new Promise((_, reject) =>
+            setTimeout(
+              () =>
+                reject(new Error("Timeout: browser.close() took too long!")),
+              5000
+            )
+          ),
+        ])
+          .then(() => console.info("Activity::", "Browser Closed!"))
+          .catch(console.error);
       } catch (error) {
         console.error(error);
       }
@@ -238,13 +247,12 @@ async function main() {
       getProxy:
         Argv.scrapeIps ?? Argv.ScrapeIps ?? Argv.SCRAPE_IPS
           ? async (ips, limit) => {
-              const Ips: string[] = [];
-
-              await scarpeIps({
-                ipcount: limit,
-                ips: Ips,
-                argv: Argv,
-              }).catch(console.error);
+              const Ips =
+                (await scarpeIps({
+                  ipcount: limit,
+                  ips: [],
+                  argv: Argv,
+                }).catch(console.error)) ?? [];
 
               for (const Ip of Ips) ips.push(new URL(Ip));
 
