@@ -79,7 +79,7 @@ export type Device = KnownDevice & {
 export const getKnownDevices = (options?: {
   name?: string;
   unIncludeIrregular?: boolean;
-  latestThreshold?: number;
+  latestThresholdPercentage?: number;
 }): Record<keyof typeof KnownDevices, Device> => {
   if (typeof options === "object" && options !== null) {
     const FilteredDevices: any = {};
@@ -91,12 +91,12 @@ export const getKnownDevices = (options?: {
 
         if (
           (!options.unIncludeIrregular || TargetDevice.isRegular) &&
-          (typeof options.latestThreshold !== "number" ||
+          (typeof options.latestThresholdPercentage !== "number" ||
             parseFloat(TargetDevice.userAgentDetails.major) >=
               getXPercentFromRange(
                 Evaluation[TargetFamily].oldest,
                 Evaluation[TargetFamily].latest,
-                options.latestThreshold
+                options.latestThresholdPercentage
               ))
         )
           FilteredDevices[Key] = TargetDevice;

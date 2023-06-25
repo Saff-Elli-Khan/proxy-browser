@@ -301,10 +301,10 @@ export const forEachBrowserProfile = async (
                 Argv.UnIncludeIrregularBrowsers ??
                 Argv.UNINCLUDE_IRREGULAR_BROWSERS ??
                 false,
-              latestThreshold: parseInt(
-                Argv.latestBrowserThreshold ??
-                  Argv.LatestBrowserThreshold ??
-                  Argv.LATEST_BROWSER_THRESHOLD ??
+              latestThresholdPercentage: parseInt(
+                Argv.latestBrowserThresholdPercentage ??
+                  Argv.LatestBrowserThresholdPercentage ??
+                  Argv.LATEST_BROWSER_THRESHOLD_PERCENTAGE ??
                   "0"
               ),
             })

@@ -41,7 +41,6 @@ const SearchStrategyPropertyCmd = (
     : undefined
 )?.split("?");
 const SearchStrategyProperty = SearchStrategyPropertyCmd?.[0];
-console.log(SearchStrategyPropertyCmd?.[1]);
 const SearchStrategyOpts = SearchStrategyProperty
   ? SearchStrategyPropertyCmd?.[1]?.split("&").reduce((opts, kv) => {
       const Kv = kv.split("=");

@@ -1,7 +1,12 @@
 #!/bin/bash
 
-# Browser 1
-nohup ts-node -T ./index.ts -w "https://lifestylescorner.com" --referer="https://search.yahoo.com,https://www.bing.com/,https://www.facebook.com/,," --no-tor --limit 150 --useKnownDevices --useGeneratedDevices --useStaticDevices --scrapeIps --searchStrategy="google" --searchQuery="Lifestyles Corner" --timeframeMs="86400000-(new Date()%86400000)" >browser-1.out 2>&1 &
+# # Browser 1
+# nohup ts-node -T ./index.ts -w "https://lifestylescorner.com" --referer="https://search.yahoo.com,https://www.bing.com/,https://www.facebook.com/,," --no-tor --limit 150 --useKnownDevices --useGeneratedDevices --useStaticDevices --scrapeIps --searchStrategy="google" --searchQuery="Lifestyles Corner" --timeframeMs="86400000-(new Date()%86400000)" >browser-1.out 2>&1 &
+# pid1=$!
+# echo "Browser 1 PID: $pid1"
+
+# Browser 1 Youtube
+nohup ts-node -T ./index.ts -w "https://www.youtube.com/shorts/MWAi1F0f-Ww,https://www.youtube.com/shorts/DoEHFxgILUM,https://www.youtube.com/shorts/kvJQbyBpJFM,https://www.youtube.com/shorts/2ujaFq29FBo,https://www.youtube.com/shorts/2ujaFq29FBo,https://www.youtube.com/shorts/bnkCfx_v0i8,https://www.youtube.com/shorts/lM_efPAgszA,https://www.youtube.com/shorts/K4GUFAsiPyE,https://www.youtube.com/shorts/XP78G-_rC7o,https://www.youtube.com/shorts/5p5QNigvtDE" --no-tor --limit 50 --useKnownDevices --useGeneratedDevices --useStaticDevices --unIncludeIrregularBrowsers --latestBrowserThresholdPercentage=70 --scrapeIps --searchQuery="#ahmadsnaps" --searchOnly --searchStrategy=youtube --strategy=0?waitForTimeoutMs=30000 >browser-1.out 2>&1 &
 pid1=$!
 echo "Browser 1 PID: $pid1"
 
