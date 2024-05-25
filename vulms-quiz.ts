@@ -1,6 +1,7 @@
 import puppeteer from "puppeteer";
 import path from "path";
 import inquirer from "inquirer";
+import clipboardy from "clipboardy";
 
 require("dotenv").config();
 
@@ -74,7 +75,7 @@ Note: Do not explain the answer. Just provide the option number without the opti
       const Quiz = await Page.evaluate(() => {
         const TextAreas = Array.from(document.querySelectorAll("textarea"));
 
-        if (TextAreas.length > 7) {
+        if (TextAreas.length > 5) {
           const QuestionTextAreas = TextAreas.filter(
             (textarea) => !textarea.id.includes("lblAnswer")
           );
@@ -123,6 +124,10 @@ Note: Do not explain the answer. Just provide the option number without the opti
 
         console.info(Prompt);
 
+        await clipboardy.write(Prompt);
+
+        console.info("Prompt has been copied to clipboard!");
+
         await Page.waitForNavigation({ timeout: DefaultNavigationTimeout });
         await startQuiz();
       } else {
@@ -130,7 +135,8 @@ Note: Do not explain the answer. Just provide the option number without the opti
 
         const Answers = await inquirer.prompt([
           {
-            message: "Do you want to continue manually (or close the browser)?",
+            message:
+              "Do you want to continue manually 'Y' (or close the browser 'N')?",
             type: "confirm",
             name: "continue",
           },
